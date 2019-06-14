@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+
+{% block content %}
+	<div class="row checkout__login">
+		<div class="col-12 col-md-6">
+			<div class="checkout__login__continue">
+				<h3>Новый покупатель?</h3>
+			</div>
+		</div>
+	</div>
+	<p>
+		<a href="{% url 'order:summary' %}" class="btn secondary narrow">
+            Продолжить?
+		</a>
+	</p>
+{% endblock %}

@@ -1,0 +1,103 @@
+
+<div class="table__header order_details__table-header d-none d-sm-block">
+	<div class="row">
+		<div class="col-md-8">
+			<small>
+				Продукт
+			</small>
+		</div>
+		<div class="col-md-2 text-right">
+			<small>
+				Колличество
+			</small>
+		</div>
+		<div class="col-md-2 text-right">
+			<small>
+				Цена {{order.status}}
+			</small>
+		</div>
+
+	</div>
+</div>
+
+{% for line in order %}
+	<div class="table__row order-details__product{% if forloop.last %} order-details__last-row{% endif %}">
+		<div class="row">
+			<div class="col-md-8 order-details__product__description">
+				{{ line.product }}
+			</div>
+			<div class="col-md-4">
+			<div class="row">
+				<div class="col-md-6 col-12">
+					<p class="float-right">
+						x{{ line.quantity }}
+					</p>
+				</div>
+				<div class="col-md-6 col-12">
+					<p class="float-right">
+						{{ line.sub_total }}
+					</p>
+				</div>
+			</div>
+		</div>
+		</div>
+	</div>
+{% endfor %}
+
+<div class="table__row">
+	<div class="row">
+		<div class="col-8 order-details__table-footer">
+			<p>
+				Промежуточный итог
+			</p>
+		</div>
+		<div class="col-4">
+			<p class="float-right">
+				{{ order.total }}
+			</p>
+		</div>
+	</div>
+</div>
+
+{% if order.discount_amount %}
+<div class="table__row">
+  <div class="row">
+    <div class="col-8 order-details__table-footer">
+      <p>{{ order.translated_discount_name|default:order.discount_name }}</p>
+    </div>
+    <div class="col-4">
+      <p class="float-right">
+	      Скидки
+      </p>
+    </div>
+  </div>
+</div>
+{% endif %}
+
+<div class="table__row">
+  <div class="row">
+    <div class="col-8 order-details__table-footer">
+      <p>
+	      Налоги
+      </p>
+    </div>
+    <div class="col-4">
+      <p class="float-right"></p>
+    </div>
+  </div>
+</div>
+
+<div class="order-details__total">
+  <div class="row">
+    <div class="col-8 order-details__table-footer">
+      <div class="total">
+        <h3>Итоговая сумма</h3>
+      </div>
+    </div>
+    <div class="col-4">
+      <p class="float-right">
+
+      </p>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <form method="post">
+        {% csrf_token %}
+        <p>Product Name</p>
+        {{ product_form.name }}
+        <p>Product Description</p>
+        {{ product_form.description}}
+        <p>Product Category</p>
+        {{ product_form.category}}
+        <p>Product Attributes</p>
+        {% for attribute_field in product_form.iter_atribute_fields %}
+        <p>{{ attribute_field.name }}</p>
+            {{ attribute_field }}
+        {% endfor %}
+        <p>Product Price</p>
+        {{ product_form.price }}
+        <p>Product Stock</p>
+        {{ product_form.stock }}
+        <p>Avalilable</p>
+        {{ product_form.available }}
+        <button type="submit">
+            Save
+        </button>
+    </form>
+</body>
+</html>

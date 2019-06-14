@@ -1,0 +1,32 @@
+{% extends "dashboard/base_modal.html" %}
+
+{% load static %}
+
+{% block form_class %}{% endblock %}
+
+{% block action_url %}
+{% url "dashboard:product-type-delete" pk=product_type.pk %}
+{% endblock %}
+
+{% block title %}
+  Remove product type {{ product_type }}
+{% endblock title %}
+
+{% block content %}
+  <div class="col s12">
+    <p>
+        Are you sure you want to remove product type <strong>{{ product_type }}</strong>?
+    </p>
+    <p>
+      {% if products %}
+          There are {{ product_count }} products in product type.
+      {% else %}
+          There are no products in this product type.
+      {% endif %}
+    </p>
+  </div>
+{% endblock %}
+
+{% block primary_action %}
+Remove
+{% endblock %}

@@ -1,0 +1,90 @@
+{% extends "dashboard/base.html" %}
+{% load static %}
+{% load utils %}
+
+{% block title %}
+  Attributes - {{ block.super }}
+{% endblock %}
+
+{% block body_class %}body-attributes{% endblock %}
+
+{% block menu_attributes_class %}active{% endblock %}
+
+{% block header_extra %}
+  <div class="btn-fab-fixed">
+    <a class="btn-fab-default waves-effect waves-light" href="{% url 'dashboard:attribute-add' %}" title="Add attribute">
+      <svg data-src="{% static "dashboard/images/add.svg" %}" />
+    </a>
+  </div>
+{% endblock %}
+
+{% block breadcrumbs %}
+  <ul class="breadcrumbs">
+    <li class="visible-s">
+      Attributes
+    </li>
+  </ul>
+{% endblock %}
+
+{% block menu_catalogue_class %} active{% endblock %}
+
+{% block content %}
+  <div class="row">
+    <div class="col s12 l9">
+      {% if attributes %}
+        <div class="card">
+          <div class="data-table-container">
+            <table class="bordered highlight data-table data-table-description">
+              <thead>
+                <tr>
+                  Name
+                  {% sorting_header 'name' label %}
+                  <th>Product type</th>
+                  <th>
+                    Values
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for pk, name, values in attributes %}
+                {{ pk }}
+                <a href="{% url 'dashboard:attribute-detail' pk=pk %}">
+                  <tr >
+                    <td>
+                      <a href="{% url 'dashboard:attribute-detail' pk=pk %}">
+                        {{ name }}
+                      </a>
+                    </td>
+                    <td>
+                      {{ product_type|default:'-' }}
+                    </td>
+                    <td>
+                      {% if values %}{{ values|join:", " }}{% else %}-{% endif %}
+                    </td>
+                  </tr>
+                  </a>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+        {% pagination attributes %}
+      {% else %}
+        {% if is_empty %}
+          {% include 'dashboard/product/attribute/zero_page.html' %}
+        {% else %}
+          <div class="col s12">
+            <div class="not-found">
+              <p class="grey-text">
+                No attributes found.
+              </p>
+            </div>
+          </div>
+        {% endif %}
+      {% endif %}
+    </div>
+    <div class="col s12 l3" id="filters">
+      {% if not is_empty %}{% filters filter_set %}{% endif %}
+    </div>
+  </div>
+{% endblock %}

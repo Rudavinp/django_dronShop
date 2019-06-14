@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <form method="post">
+        {% csrf_token %}
+        <p>Category Name</p>
+        {{ form.name }}
+        <p>Categoty Description</p>
+        {{ form.description }}
+        <p>Parent</p>
+        {{ form.parent }}
+        <button type="submit">
+            Save
+        </button>
+    </form>
+</body>
+</html>

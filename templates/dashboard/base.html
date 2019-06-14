@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+
+<html lang="US" class="no-js">
+	<head>
+		<title>
+			{% block title %}
+				Dashboard
+			{% endblock %}
+		</title>
+		{% block meta %}
+			<meta charset="utf-8">
+		    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+		    <meta name="theme-color" content="#21915a" />
+		    <meta name="robots" content="noindex, nofollow">
+		{% endblock %}
+
+		<!-- Custom styles -->
+        <link rel="stylesheet" href="{% static 'css/dashboard_style.css' %}">
+	</head>
+
+	<body class="{% block body_class %}body-home nav-toggled{% endblock %}">
+		<header>
+			<nav class="top-nav" id="top-nav">
+			<div class="nav-wrapper">
+				<div class="right">
+					<ul id="user-action" class="dropdown-content">
+						<li class="user-name">
+							{{ request.user }}
+						</li>
+						<li class="divider"></li>
+						<li>
+							<a href="{% url 'home'%}" target="_blank" class="waves-effect"></a>
+						</li>
+					</ul>
+					<a class="dropdown-button" data-constrainwidth="false" href="#" data-activates="user-action">
+                        <svg data-src="{% static '/dashboard/images/account-circle.svg' %}" width="24" height="24" fill="#fff" />
+					</a>
+					<a href="" class="dropdown-button hide-on-med-and-up" id="btn-search">
+                        <svg data-src="{% static 'dashboard/images/search.svg' %}" width="24" height="24" fill="#fff" />
+                    </a>
+				</div>
+				<ul class="left">
+					<li>
+						<a href="#" id="toggle-menu">
+                            <svg data-src="{% static 'dashboard/images/mobile-menu.svg' %}" width="24" height="24" />
+                        </a>
+					</li>
+					<li>
+						<a href="{% url 'dashboard:index' %}" class="logo">
+                            <svg data-src="{% static 'dashboard/images/logo.svg' %}" height="38px" width="176px" />
+                        </a>
+					</li>
+					<li class="search">
+                        <form method="get" action="" %}">
+                            <a class="hide-on-med-and-up" id="btn-search-close"></a>
+                                <div class="input-field d-inline">
+                                    <input id="search" type="search" placeholder="Search"  name="q" required value="{% if query %}{{ query }}{% endif %}">
+	                                <label class="hide-on-small-only">
+		                                <svg data-src="{% static "dashboard/images/search.svg" %}" width="24" height="24" fill="#fff" />
+	                                </label>
+                                </div>
+                                <a href="" class="hide-on-med-and-up" id="btn-search-submit">
+                                    <svg data-src="{% static "dashboard/images/search.svg" %}" width="24" height="24" fill="#fff" />
+                                </a>
+                        </form>
+                    </li>
+				</ul>
+				<ul class="side-nav">
+                    <li class="nav-home">
+                        <a href="{% url 'dashboard:index' %}">
+                            Home
+                        </a>
+                    </li>
+                    <li class="side-nav-section" id="first">
+                        <p>
+                            Catalogue
+                        </p>
+                        <ul>
+                            <li class="{% block menu_products_class %}{% endblock %}">
+                                <a href="{% url 'dashboard:product-list' %}">
+                                    Products
+                                </a>
+                            </li>
+                            <li class="{% block menu_categories_class %}{% endblock %}">
+                                <a href="{% url 'dashboard:category-list' %}">
+                                    Categories
+                                </a>
+                            </li>
+                            <li class="{% block menu_collections_class %}{% endblock %}">
+                                <a href="{% url 'dashboard:product-list' %}">
+                                    Collections
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    {% if perms.discount.manage_discounts %}
+                    <li class="side-nav-section">
+	                    <p>
+	                        Discounts
+	                    </p>
+	                    <ul>
+	                        <li class="{% block menu_sales_class %}{% endblock %}">
+	                            <a href="{% url 'dashboard:product-list' %}">
+	                                Sales
+	                            </a>
+	                        </li>
+	                        <li class="{% block menu_vouchers_class %}{% endblock %}">
+	                            <a href="{% url 'dashboard:product-list' %}">
+	                                Vouchers
+	                            </a>
+	                        </li>
+	                    </ul>
+                    </li>
+                    {% endif %}
+                    {% if perms.order.manage_orders or perms.account.manage_users %}
+                    <li class="side-nav-section">
+                        <p>
+                            Sales
+                        </p>
+                        <ul>
+                            {% if perms.order.manage_orders %}
+                            <li class="{% block menu_orders_class %}{% endblock %}">
+                                <a href="{% url 'dashboard:product-list' %}">
+                                    Orders
+                                </a>
+                            </li>
+                            {% endif %}
+                            {% if perms.account.manage_users %}
+                            <li class="{% block menu_customers_class %}{% endblock %}">
+                                <a href="{% url 'dashboard:product-list' %}">
+                                    Customers
+                                </a>
+                            </li>
+                            {% endif %}
+                        </ul>
+                    </li>
+					{% endif %}
+					{% if perms.account.manage_staff %}
+                    <li class="side-nav-section">
+                        <p>
+                            Staff
+                        </p>
+                        <ul>
+                            <li class="{% block menu_staff_class %}{% endblock %}">
+                                <a href="{% url 'dashboard:product-list' %}">
+                                    Staff
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    {% endif %}
+                    <li class="side-nav-section">
+                        <p>
+                            Configuration
+                        </p>
+                        <ul>
+
+                            <li class="{% block menu_product_types_class %}{% endblock %}">
+                                <a href="{% url 'dashboard:product-type-list' %}">
+                                    ProductType
+                                </a>
+                            </li>
+                            <li class="{% block menu_attributes_class %}{% endblock %}">
+                                <a href="{% url 'dashboard:attributes-list' %}">
+                                    Attributes
+                                </a>
+                            </li>
+                            {% if perms.shipping.manage_shipping %}
+                            <li class="{% block menu_delivery_class %}{% endblock %}">
+                                <a href="{% url 'dashboard:product-list' %}">
+                                    Shipping
+                                </a>
+                            </li>
+                            {% endif %}
+                            {% if perms.menu.manage_menus %}
+                            <li class="{% block menu_menus_class %}{% endblock %}">
+                                <a href="{% url 'dashboard:product-list' %}">
+                                    Navigation
+                                </a>
+                            </li>
+                            {% endif %}
+                            {% if perms.site.manage_settings %}
+                            <li class="{% block menu_settings_class %}{% endblock %}">
+                                <a href="{% url 'dashboard:product-list' %}">
+                                    Site
+                                </a>
+                            </li>
+                            {% endif %}
+                            <li class="{% block menu_taxes_class %}{% endblock %}">
+                                <a href="{% url 'dashboard:product-list' %}">
+                                    Taxes
+                                </a>
+                            </li>
+                            {% if perms.page.manage_pages %}
+                            <li class="{% block menu_pages_class %}{% endblock %}">
+                                <a href="{% url 'dashboard:product-list' %}">
+                                    Pages
+                                </a>
+                            </li>
+
+                        </ul>
+                    </li>
+                    <li class="side-nav-section" id="version-indicator">
+                        <p>
+                            Release:Dashboard software version
+                        </p>
+                    </li>
+                    {% endif %}
+                </ul>
+			</div>
+		</nav>
+		</header>
+		<div class="subheader top-nav">
+			<div class="nav-wrapper container">
+				{% block breadcrumbs %}
+				    <ul class="brreadcrumbs">
+					    <li class="visibal-s">
+						    <a href="#">
+							    Home
+						    </a>
+					    </li>
+				    </ul>
+				{% endblock %}
+                {% block header_extra %}{% endblock %}
+			</div>
+		</div>
+		<main class="main">
+            <div id="base-modal" class="modal"></div>
+            <div id="base-modal-fixed" class="modal modal-fixed-footer"></div>
+			<div class="container">
+                {% block content %}{% endblock %}
+            </div>
+        </main>
+	</body>
+</html>

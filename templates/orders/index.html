@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+{% load bootstrap_field from bootstrap4 %}
+
+{% block content %}
+<div class="container maincontainer">
+	<div class="cart">
+		{% if product %}
+			<div class="table__header d-none d-md-block">
+				<div class="row">
+					<div class="col-md-7">
+						<p>Wanna buy something?</p>
+					</div>
+					<div class="col-md-3">blavla</div>
+					<div class="col-md-2">
+						<small>blad</small>
+					</div>
+				</div>
+			</div>
+		{% for p in product %}
+		<div class="cart__line{% if forloop.last %} last{% endif %} table__row">
+			<div class="row">
+				<div class="col-7 cart__line__product">
+					<!--<a class="link&#45;&#45;clean" href="{{ line.variant.get_absolute_url }}"></a>-->
+					<p>{{p.product}}</p>
+				</div>
+				<div class="col-5">
+					<div class="row">
+						<div class="cart__line__quantity col-md-7 col-12">
+							<form role="form" action="{% url 'cart:update_product' product_id=p.product.pk %}"
+							      method="post" class="form-cart">
+								{{ p.form.quantity }}
+								<input type="submit" value="ok">
+								{% csrf_token %}
+							</form>
+							<p>{{p.quantity}}</p>
+						</div>
+						<div class="cart-item-price col-md-5 col-12">
+							<p class="text-right">{{p.total_price}}</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		{% endfor %}
+		<div class="cart__subtotal">
+			<div class="table__row">
+				<div class="row">
+					<div class="col-8 cart__total__subtotal">
+						<h3>Всего</h3>
+					</div>
+					<div class="col-4">
+						<h3 class="text-right cart-subtotal">
+							{{total_price}}
+						</h3>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-12">
+				<a href="{% url 'order:login' %}" class="btn primary float-right cart__submit">
+					Оформить заказ
+				</a>
+				<a href="{% url 'cart:clear-cart' %}">
+					<button class="btn secondary float-right cart__clear" data-action="{% url 'cart:clear-cart' %}">
+						Очистить корзину
+					</button>
+				</a>
+			</div>
+		</div>
+		{% else %}
+			{{ product }}
+			<h2>The cart is empty</h2>
+		{% endif %}
+		{% endblock content %}
+	</div>
+</div>

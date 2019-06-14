@@ -1,0 +1,23 @@
+{% extends 'orders/details.html' %}
+{% load bootstrap_form from bootstrap4 %}
+
+{% block forms %}
+	<form method="post" novalidate>
+		{% csrf_token %}
+		<h2>Адресс платильщика</h2>
+		{% bootstrap_form user_form %}
+		{% for field in adress_form %}
+		<div class="row">
+			<div class="col-6">
+				{{field}}
+			</div>
+		</div>
+		{% endfor %}
+
+		<h2>Добавьте коментарии к вашему заказу</h2>
+		{% bootstrap_form note_form %}
+		<button type="submit" class="btn primary">
+			Отправить заказ
+		</button>
+	</form>
+{% endblock %}

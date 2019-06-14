@@ -1,0 +1,258 @@
+{% extends 'dashboard/base.html' %}
+{% load staticfiles %}
+{% load static %}
+
+{% block title %}{{ product }} - {{ block.super }}{% endblock %}
+
+{% block body_class %}body-products{% endblock %}
+
+{% block menu_products_class %}active{% endblock %}
+
+{% block breadcrumbs %}
+  <ul class="breadcrumbs breadcrumbs--history">
+    <li>
+      <a href="{% url "dashboard:product-list" %}" class="breadcrumb">
+        Products
+      </a>
+    </li>
+    <li class="back-mobile">
+      <a href="{% url "dashboard:product-list" %}">
+        <svg data-src="{% static "dashboard/images/arrow-left.svg" %}" fill="#fff" width="20px" height="20px" />
+      </a>
+    </li>
+    <li>
+      <span class="breadcrumbs--ellipsed-item">
+        {{ product }}
+      </span>
+    </li>
+  </ul>
+{% endblock %}
+{% block content %}
+  <div class="row">
+    <div class="col s12 l8">
+      <div class="card">
+        <div class="card-content">
+          <div class="product-header">
+            <div class="product-header__title">
+              <span class="card-title">
+                {{ product }}
+              </span>
+            </div>
+            <div class="product-header__switch">
+              <form id="toggle-publish-form" action="{% url 'dashboard:product-details' product.pk %}">
+              {% csrf_token %}
+                <div class="switch" id="product-is-published">
+                  <label>
+                    <input id="toggle-publish-switch" type="checkbox" {% if product.is_published %} checked {% endif %}>
+                    <span class="lever"></span>
+                    <span class="label">
+                      Published
+                    </span>
+                  </label>
+                </div>
+              </form>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col s12">
+              <h5>render_availability_status product </h5>
+            </div>
+          </div>
+          <div class="product-description">
+            <p>
+              {{ product.description | safe }}
+            </p>
+          </div>
+        </div>
+        <div class="card-action">
+          <a href="{% url "dashboard:product-details" product.pk %}" class="btn-flat waves-effect">
+            Edit product
+          </a>
+          <a href="#base-modal" data-href="{% url 'dashboard:product-details' pk=product.pk %}" class="modal-trigger-custom btn-flat waves-effect">
+            Remove product
+          </a>
+          <a href="{{ product.get_absolute_url }}" target="_blank" class="btn-flat waves-effect">
+            View on site
+          </a>
+        </div>
+      </div>
+      {% if not no_variants %}
+        <div class="card">
+          <div class="card-content">
+            <span class="card-title">Variant</span>
+          </div>
+          <div class="data-table-header-action">
+            <a href="{% url 'dashboard:product-details' pk=product.pk %}" class="btn-flat waves-effect">Add</a>
+          </div>
+          <div class="data-table-container">
+            <table class="bordered highlight responsive data-table">
+              <thead>
+                <tr>
+                  <th>SKU</th>
+                  <th>Name</th>
+                  <th>Status</th>
+                  <th class="right-align">
+                    {% if site.settings.include_taxes_in_prices %}
+                      Gross price
+                    {% else %}
+                      Net price
+                    {% endif %}
+                  </th>
+                  <th class="right-align">Margin</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for variant in variants %}
+                  <tr data-action-go="{% url "dashboard:variant-details" pk=product.pk variant_pk=variant.pk %}">
+                    <td>{{ variant.sku }}</td>
+                    <td>{{ variant }}</td>
+                    <td class="wide">render_variant_availability_status variant </td>
+                    <td class="right-align">
+                      price variant.base_price
+                    </td>
+                    <td class="right-align">
+                      margins_for_variant variant=variant as margins
+                    </td>
+                    <td><a href="{% url 'dashboard:product-details' pk=product.pk variant_pk=variant.pk %}" class="btn-flat waves-effect">Edit</a></td>
+                  </tr>
+                {% empty %}
+                  <tr>
+                    <td colspan="5">No variants found</td>
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      {% endif %}
+    </div>
+    <div class="col s12 l4">
+      <div class="row no-margin">
+        <div class="col s12">
+          <div class="card">
+            <div class="data-table-header">
+              <div class="data-table-title">
+                <h5>
+                  Pricing
+                </h5>
+                <h6>
+                    Taxes are not charged
+                </h6>
+              </div>
+            </div>
+            <div class="data-table-container">
+              <table class="data-table bordered highlight">
+                <tbody>
+                  <tr>
+                    <td>
+                      Net sale price
+                    </td>
+                    <td class="right-align">
+                      price sale_price display_gross=site.settings.include_taxes_in_prices
+                    </td>
+                  </tr>
+                  {% if discounted_price != sale_price %}
+                    <tr>
+                      <td>
+                        {% if site.settings.include_taxes_in_prices %}
+                          Product field
+                        {% else %}
+                          Net discounted price
+                        {% endif %}
+                      </td>
+                      <td class="right-align">
+                        price discounted_price display_gross=site.settings.include_taxes_in_prices
+                      </td>
+                    </tr>
+                  {% endif %}
+                  <tr>
+                    <td>
+                      {% if site.settings.include_taxes_in_prices %}
+                        Gross purchase cost
+                      {% else %}
+                       Net purchase cost"
+                      {% endif %}
+                    </td>
+                    <td class="right-align">
+                     price purchase_cost
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      Margin
+                    </td>
+                    <td class="right-align">
+                      {% if margin %}
+                        {% if margin.0 == margin.1 %}
+                          {{ margin.0 }}%
+                        {% else %}
+                          {{ margin.0 }}% - {{ margin.1 }}%
+                        {% endif %}
+                      {% else %}
+                        -
+                      {% endif %}
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          {% if no_variants %}
+            <div class="card">
+              <div class="data-table-header">
+                <div class="data-table-title">
+                  <h5>
+                 Inventory
+                  </h5>
+                </div>
+              </div>
+              <div class="data-table-container">
+                <table class="data-table bordered highlight">
+                  <tbody>
+                    <tr>
+                      <td>
+                        Number in stock
+                      </td>
+                      <td class="right-align">
+                        {{ only_variant.quantity }}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                       Allocated
+                      </td>
+                      <td class="right-align">
+                        {{ only_variant.quantity_allocated }}
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          {% endif %}
+          <div class="card">
+            <div class="card-content">
+              <span class="card-title">Images</span>
+              <div class="row">
+                {% for image in images %}
+                  <div class="col s4">
+                    <img class="responsive-img" src="{{ image.image.thumbnail.255x255 }}" srcset="{{ image.image.thumbnail.255x255 }} 1x, {{ image.image.thumbnail.510x510 }} 2x" alt="{{ image.alt }}">
+                  </div>
+                {% endfor %}
+              </div>
+            </div>
+            <div class="card-action">
+              <a href="{% url 'dashboard:product-details' product.pk %}" class="btn-flat waves-effect">Edit images</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<p>loli</p>
+{{ product.attributes}}
+  {% for key, value in product.attributes.items %}
+    <p>{{ key }} - {{ value }}</p>
+  {% endfor %}
+{% endblock %}

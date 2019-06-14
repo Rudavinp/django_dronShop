@@ -1,0 +1,52 @@
+{% load utils %}
+{% load static %}
+
+{% if pages.paginator.num_pages > 1 %}
+    <ul class="pagination">
+
+        {% if pages.has_previous %}
+            <li> <a href="?page={{pages.number|sub:1}}"> <img src='{% static "dashboard/img/chevron-left.svg" %}' width="24" height="24" fill="#000"/> </a></li>
+        {% endif %}
+
+        {% if pages.number == 1 %}
+            <li class="active"><a href="?page=1">1</a></li>
+        {% else %}
+            <li><a href="?page=1">1</a></li>
+        {% endif %}
+
+        {% if pages.number == 2 %}
+            <li class="active"><a href="?page=2">2</a></li>
+        {% else %}
+            <li><a href="?page=2">2</a></li>
+        {% endif %}
+
+
+        {% if  pages.number > 5 %}
+            <li><a href="{% get_page_number page_max=pages.number|sub:2 page_min=2 %}">...</a></li>
+        {% endif %}
+
+        {% for i in pages.paginator.page_range %}
+            {% if i <= pages.number|add:2 and  i >= pages.number|add:-2 and i != 1 and i != 2 and i != pages.paginator.num_pages%}
+                {% if i == pages.number %}
+                    <li class="active"><a href="?page={{i}}">{{i}}</a></li>
+                {% else %}
+                    <li><a href="?page={{i}}">{{i}}</a></li>
+                {% endif %}
+            {% endif %}
+        {% endfor %}
+
+        {% if  pages.paginator.num_pages|sub:pages.number > 3 %}
+            <li><a href="{% get_page_number page_max=pages.paginator.num_pages page_min=pages.number|add:2 %}">...</a></li>
+        {% endif %}
+
+        {% if pages.number == pages.paginator.num_pages %}
+            <li class="active"><a href="?page={{ pages.paginator.num_pages }}">{{ pages.paginator.num_pages }}</a></li>
+        {% else %}
+            <li><a href="?page={{ pages.paginator.num_pages }}">{{ pages.paginator.num_pages }}</a></li>
+        {% endif %}
+
+        {% if pages.has_next %}
+            <li> <a href="?page={{pages.number|add:1}}"> <img src='{% static "dashboard/img/chevron-right.svg" %}' width="24" height="24" fill="#000"/> </a></li>
+        {% endif %}
+    </ul>
+{% endif %}

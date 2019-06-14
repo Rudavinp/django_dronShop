@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+(% load static %}
+
+
+{% block content %}
+	<div class="countainer">
+		<div class="row">
+			{% if product_in_cart %}
+			<dvi class="col-lg-8 col-lg-center-2">
+				<h3 calss="text-center">Товары в корзине</h3>
+				<h5 class="text-center">Общая стоимость: {{ request.session.cart.total_amount }} RUB</h5>
+				<form class="form-horizontal" method="post">{% csrf_token %}
+					<div class="col-lg-6">
+						<div class="form-group">
+							<lable>Имя</lable>
+							<span class="form-error">{{ form.name.errors }}</span>
+							<input type="text" name="{{ form.name.html_name }}" class="form-control"
+								value="{{ request.POST.name }}"
+							>
+						</div>
+					</div>
+
+					<div class="col-lg-6">
+						<div class="form-group">
+							<lable>Телефон</lable>
+							<span class="form-error">{{ form.phone.errors }}</span>
+							<input type="text" name="{{ form.phone.html_name }}" class="form-control"
+								value="{{ request.POST.phone }}"
+							>
+						</div>
+					</div>
+
+					<table class="table text-center">
+						<thead>
+							<tr>
+								<th>Название товара</th>
+								<th>Колличество</th>
+								<th>Цена за единицу</th>
+								<th>Общая цена</th>
+							</tr>
+						</thead>
+						<tbody>
+						{% for product_in_cart in products_in_cart %}
+							<tr>
+								<td>
+									{{ product_in_cart.product.name }}
+								</td>
+								<td>
+									<input value="{{ product_in_cart.nmb }}" type="number"
+									       class="product-in-cart-nmb" name="product_in_cart_{{ product_in_cart.id }}">
+								</td>
+								<td>
+									<span class="product-price">
+										{{ product_in_cart.price_per_item }}
+									</span>
+								</td>
+								<td>
+									<span class="total-product-in-cart-amount">
+										{{ product_in_cart.total_price }}
+									</span>
+								</td>
+							</tr>
+						{% endfor %}
+						</tbody>
+					</table>
+
+					<div class="text-right">
+						<b>Cумма заказа: </b> <span id="total_order_amount"></span>
+					</div>
+					<hr>
+					<div class="text-right">
+						<button type="submit" class="btn-primary btn-lg">Заказать</button>
+					</div>
+				</form>
+			</dvi>
+			{% else %}
+			<h3 class="text-center">Ваша корзина пуста</h3>
+			{% endif %}
+		</div>
+	</div>
+{% endblock %}

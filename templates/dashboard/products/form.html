@@ -1,0 +1,139 @@
+{% extends "dashboard/base.html" %}
+{% load static %}
+{% load utils %}
+
+{% block title %}
+  {% if product.pk %}
+    Edit- {{ product }}
+  {% else %}
+    Add new product
+  {% endif %}
+   - {{ block.super }}
+{% endblock %}
+
+{% block body_class %}body-products{% endblock %}
+
+{% block menu_products_class %}active{% endblock %}
+
+{% block header_menu %}
+11111
+  {% url "dashboard:product-list" as url %}
+  {% include "dashboard/includes/_back_link.html" with url=url %}
+{% endblock %}
+
+{% block breadcrumbs %}
+  <ul class="breadcrumbs breadcrumbs--history">
+    <li>
+      <a href="{% url "dashboard:product-list" %}" class="breadcrumb">
+        Products
+      </a>
+    </li>
+    <li class="back-mobile">
+      <a href="{% url "dashboard:product-list" %}">
+        <svg data-src="{% static "dashboard/images/arrow-left.svg" %}" fill="#fff" width="20px" height="20px" />
+      </a>
+    </li>
+    <li>
+      {% if product.pk %}
+        <a href="{% url "dashboard:product-details" pk=product.pk %}" class="breadcrumbs--ellipsed-item">
+          {{ product }}
+        </a>
+      {% else %}
+        <span class="breadcrumbs--ellipsed-item">
+          Add new product
+        </span>
+      {% endif %}
+    </li>
+    {% if product.pk %}
+      <li>
+        <span class="breadcrumbs--ellipsed-item">
+          Edit
+        </span>
+      </li>
+    {% endif %}
+  </ul>
+{% endblock %}
+
+{% block menu_catalogue_class %} active{% endblock %}
+
+{% block content %}
+{% for attribute_field in product_form.iter_atribute_fields %}
+                    {{ attribute_field }}
+                {% endfor %}
+  <div class="tab-content" id="details">
+    <div class="row">
+      <div class="col m12 l9">
+        <form method="post" class="card" id="form-product" novalidate>
+          {% csrf_token %}
+          <div class="card-content">
+            <div class="row">
+              <div class="col s12 l8" >
+                <div class="row">
+                  {{ product_form.name|materializecss }}
+                </div>
+                <div class="row">
+                  {{ product_form.description|materializecss }}
+                </div>
+                <span class="card-title">Availability</span>
+                <div class="row">
+                  <div class="col s12 m3">
+                  </div>
+                  <div class="col s12 m9">
+                  </div>
+                </div>
+              </div>
+              <div class="col s12 l4">
+                <div class="row">
+                  {{ product_form.price|materializecss }}
+                </div>
+                <div class="row">
+                </div>
+
+                  <div class="row">
+                  </div>
+                  <div class="row">
+                  </div>
+                  <div class="row">
+                  </div>
+                <div class="row">
+                  {{ product_form.category|materializecss }}
+                </div>
+                <div class="row">
+                </div>
+                  <span class="card-title">Shipping</span>
+                  <br>
+                <span class="card-title">Attributes</span>
+                <br>
+                <h6>
+                    Product Type: {{ product.product_type }}
+                </h6>
+                <br>
+                {% for attribute_field in product_form.iter_atribute_fields %}
+                    {{ attribute_field }}
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+          <div class="card-action right-align">
+            {% if product.pk %}
+              <a href="{% url 'dashboard:product-details' product.pk %}" class="btn-flat waves-effect">
+                Cancel"
+              </a>
+              <button type="submit" class="btn waves-effect">
+                Save
+              </button>
+            {% else %}
+              <a href="{% url 'dashboard:product-list' %}" class="btn-flat waves-effect">
+                Cancel
+              </a>
+              <button type="submit" class="btn waves-effect">
+                Create
+              </button>
+            {% endif %}
+          </div>
+        </form>
+      </div>
+      <div class="col m12 l3 help-box"></div>
+    </div>
+  </div>
+{% endblock %}

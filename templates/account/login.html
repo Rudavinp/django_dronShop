@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
+
+{% block content %}
+<div class="wrapper-product">
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-6">
+				<h3>Войти</h3>
+				<form method="post" action="{% url 'account:login' %}">
+					<!--<h3>Создание аккаунта</h3>-->
+					{% csrf_token %}
+					<div class="form-group">
+						<label for="id_email">Email</label>
+						<input type="email" name="username" autofocus class="form-control" placeholder="Email"
+						       required id="id_email">
+					</div>
+					<div class="form-group-relative">
+						<label for="id_password">Password</label>
+						<input type="password" name="password" autofocus class="form-control" placeholder=
+								"Password" required id="id_password">
+					</div>
+					<button type="submit" class="button primary narrow">
+						Войти
+					</button>
+				</form>
+			</div>
+			<div class="col-lg-6">
+				<h3>Зарегистрироваться</h3>
+				<p>
+					<a href="{% url 'account:signup' %}" class="btn secondary narroy">
+						Регистрация
+					</a>
+				</p>
+
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}

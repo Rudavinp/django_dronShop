@@ -1,0 +1,19 @@
+{% extends "dashboard/base_modal.html" %}
+
+{% load utils %}
+
+{% block action_url %}
+  {% url "dashboard:product-add-select-type" %}
+{% endblock %}
+
+{% block title %}
+  Product type
+{% endblock %}
+
+{% block content %}
+  {{ form|materializecss }}
+{% endblock %}
+
+{% block primary_action %}
+  Create
+{% endblock %}

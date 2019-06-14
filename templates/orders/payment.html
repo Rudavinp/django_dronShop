@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% load staticfiles %}
+
+
+{% block content %}
+	<div class="row checkout">
+		<div class="col-lg-10 m-auto">
+			<h1>
+				Оплатить заказ {{ order }}
+			</h1>
+			{% include 'orders/_ordring_table_items.html' %}
+		</div>
+	</div>
+{% endblock %}

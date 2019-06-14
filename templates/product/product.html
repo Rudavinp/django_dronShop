@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% load bootstrap_field from bootstrap4 %}
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
+{% block content %}
+	<div class="wrapper-product">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-6">
+					{{ product }}
+					{{ product.images.all.count }}
+					{% for image in product.images.all %}
+					<img src="{{ image.image.url }}" class="img-fluid" alt="Responsive image">
+					{% endfor %}
+				</div>
+				<div class="col-lg-6">
+					<h1 class="text-center">
+						{{ product.name }}
+					</h1>
+					<div class="">
+						<p>
+							{{ product.price }}
+						</p>
+					</div>
+						  <!-- Навигационные вкладки -->
+					<ul class="nav nav-tabs" id="myTab" role="tablist">
+					  <li class="nav-item">
+					    <a class="nav-link active" id="home-tab" data-toggle="tab" href="#description" role="tab" aria-controls="home" aria-selected="true">
+						    Описание
+					    </a>
+					  </li>
+					  <li class="nav-item">
+					    <a class="nav-link" id="profile-tab" data-toggle="tab" href="#delivery" role="tab" aria-controls="profile" aria-selected="false">
+						    Доставка
+					    </a>
+					  </li>
+					  <li class="nav-item">
+					    <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">Contact</a>
+					  </li>
+					</ul>
+					<div class="tab-content product-description-tabs" id="myTabContent">
+					  <div class="tab-pane fade show active" id="description" role="tabpanel" aria-labelledby="home-tab">
+						  {{ product.description }}
+					  </div>
+					  <div class="tab-pane fade" id="delivery" role="tabpanel" aria-labelledby="profile-tab">
+						  <h3>Способ доставки</h3>
+					  </div>
+					  <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">...</div>
+					</div>
+					<div>
+						<form id="form_buying_product" method='post' class="form-inline" action="{% url 'order:add_to_cart' product_id=product.id%}"> {% csrf_token %}
+							<div class="form-group">
+								{% bootstrap_field form.quantity %}
+								<!--{{ form }}-->
+								<!--<input type="quantity" class="form-control" id="number" name="quantity">-->
+							</div>
+							<div class="form-group">
+								<button type="submit" id="submit_btn" class="btn btn-success btn-buy"
+									data-product_id = '{{ product.id }}'
+									data-name = '{{ product.name }}'
+									data-price = '{{ product.price }}'
+								>
+									Купить
+								</button>
+								<table>
+									{% for key, value in product.attributes.items %}
+									<tr>
+										<td>{{key}}:</td>
+										<td><strong>{{value}}</strong></td>
+									{% endfor %}
+								</table>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<h3>Lol</h3>
+	<p> {{ product}} </p>
+{% endblock %}

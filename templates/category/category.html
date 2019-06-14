@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block content %}
+	<div class="wrapper-product">
+		<div class="cnoteinet-fluid">
+			<div class="row">
+				<div class="col-2 right-bar">
+						{{ block.super }}
+				</div>
+				<div class="col-10 workarea product-col-general">
+						<div class="row">
+							{% for product in products %}
+							<div class="col-lg-3 product-col">
+								<div class="product-elem">
+									<div>
+										<a href="{% url 'product' product.id %}">
+											<img src="{{ product.get_image.image.url }}" width="200px" height="200px" class="img-responsive">
+										</a>
+									</div>
+									{% if product.discount %}
+									<div class="discount-container">
+										{{ product.discount }}%
+									</div>
+									{% endif %}
+									<h5>{{ product.name }}</h5>
+									<p>
+										{{ product.description | truncatechars_html:50}}
+									</p>
+									<div class="product-price">
+										{{ product.price }} RUB
+									</div>
+									<div class="add-to-cart-btn">
+										<button class="btn btn-success" id="submit_btn">
+											Добавить в корзину
+										</button>
+									</div>
+								</div>
+							</div>
+							{% endfor %}
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}

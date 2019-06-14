@@ -1,0 +1,42 @@
+{% load static %}
+{% load utils %}
+
+<div class="card">
+	<form method="get">
+		<div class="cart-content">
+			<div class="col s12">
+				<span class="card-title">Filters</span>
+			</div>
+			<div class="col s12 hide-on-large-only chips-container">
+			</div>
+			<div class="clearfix"></div>
+			<div class="card-content card-action wide">
+				<div class="row no-margin">
+					{% for field in filter.form %}
+						<div class="col s12">
+							{% if field.name == 'sort_by' %}
+								<!--Field 'sort_by' is hidden because it is rendered in header.
+                                This is required if you want to have sorting to be kept during further filtering.-->
+                                <input type="hidden" name="sort_by" value="{% if sort_by %}{{ sort_by }}{% endif %}">
+							{% else %}
+								11
+								{{ field|materializecss }}
+							{% endif %}
+						</div>
+					{% endfor %}
+				</div>
+				<div class="clearfix"></div>
+			</div>
+			<div class="cart-action">
+				<div class="right-align">
+					<div class="col s12">
+						<button class="btn-flat waves-effect" type="submit">
+							Filter
+						</button>
+					</div>
+					<div class="clearfix"></div>
+				</div>
+			</div>
+		</div>
+	</form>
+</div>

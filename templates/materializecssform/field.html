@@ -1,0 +1,328 @@
+
+{% load utils %}
+
+{% if field|is_checkbox %}
+1
+  <div class="input input-field col {{ classes.label }}">
+    <div class="{{ classes.single_value }}">
+      <div>
+        {% if field.auto_id %}
+          <input id="{{ field.auto_id }}" name="{{ field.html_name }}" class="filled-in" type="checkbox"{% if field.value %} checked="checked" {% endif %} {% if field.field.disabled %} disabled {% endif %}>
+          <label for="{{ field.auto_id }}">
+            {{ field.label }}
+            {% for error in field.errors %}
+              <p class="help-block materialize-red-text">{{ error }}</p>
+            {% endfor %}
+            {% if field.help_text %}
+              <p class="help-block">
+                {{ field.help_text|safe }}
+              </p>
+            {% endif %}
+          </label>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+{% elif field|is_checkbox_select_multiple %}
+2
+  <div class="input input-field col {{ classes.label }}">
+    {% if field.auto_id %}
+      <label class="control-label {{ classes.label }}">
+        {{ field.label }}
+        {% if not field.field.required %}
+          (optional)
+        {% endif %}
+      </label>
+    {% endif %}
+    {% for choice in field %}
+      <p>
+        <input id="{{ choice.id_for_label }}" name="{{ choice.data.name }}" class="filled-in" type="checkbox" value="{{ choice.data.value }}" {% if choice.data.selected %} checked="checked" {% endif %}>
+        <label for="{{ choice.id_for_label }}">
+          {{ choice.choice_label }}
+        </label>
+      </p>
+    {% endfor %}
+    {% for error in field.errors %}
+      <p class="help-block materialize-red-text">
+        {{ error }}
+      </p>
+    {% endfor %}
+    {% if field.help_text %}
+      <p class="help-block">
+        {{ field.help_text|safe }}
+      </p>
+    {% endif %}
+  </div>
+{% elif field|is_radio %}
+3
+  <div class="input input-field col {{ classes.label }}">
+    {% if field.auto_id %}
+      <label class="control-label {{ classes.label }}">
+        {{ field.label }}{% if not field.field.required %} (optional) {% endif %}
+      </label>
+    {% endif %}
+    {% for choice in field %}
+      <p>
+        {{ choice.tag }}
+        <label for="{{ choice.id_for_label }}">
+          {{ choice.choice_label }}
+        </label>
+      </p>
+    {% endfor %}
+    {% for error in field.errors %}
+      <p class="help-block materialize-red-text">
+        {{ error }}
+      </p>
+    {% endfor %}
+    {% if field.help_text %}
+      <p class="help-block">
+        {{ field.help_text|safe }}
+      </p>
+    {% endif %}
+  </div>
+{% elif field|is_date_input %}
+4
+    <div class="input input-field col {{ classes.label }}">
+      <label class="active" for="{{ field.auto_id }}">
+        {{ field.label }}
+        {% if not field.field.required %}
+          (optional)
+        {% endif %}
+      </label>
+      <input type="date" id="{{ field.auto_id }}" class="datepicker" name="{{ field.name }}"
+        value="{% if field.value %}{{ field.value|date:"Y-m-d" }}{% endif %}" data-value="{% if field.value %}{{ field.value|date:"Y-m-d" }}{% endif %}">
+      {% for error in field.errors %}
+        <p class="help-block materialize-red-text">
+          {{ error }}
+        </p>
+      {% endfor %}
+      {% if field.help_text %}
+        <p class="help-block">
+          {{ field.help_text|safe }}
+        </p>
+      {% endif %}
+    </div>
+{% elif field|is_select %}
+5
+  <div class="input input-field col {{ classes.label }}">
+    {% if field|is_checkbox_select_multiple %}
+      {% if field.auto_id %}
+        <label class="control-label {{ classes.label }}">
+          5.1{{ field.label }}
+          {% if not field.field.required %}
+           (optional)
+          {% endif %}
+        </label>
+      {% endif %}
+      <div class="{{ classes.value }}">
+        {% for choice in field %}
+          <p>
+            {{ choice.tag }}
+            <label for="{{ choice.id_for_label }}">
+              5.2{{ choice.choice_label }}
+            </label>
+          </p>
+        {% endfor %}
+        {% for error in field.errors %}
+          <p class="help-block materialize-red-text">
+            {{ error }}
+          </p>
+        {% endfor %}
+        {% if field.help_text %}
+          <p class="help-block">
+            {{ field.help_text|safe }}
+          </p>
+        {% endif %}
+      </div>
+    {% else %}
+      <label for="{{ field.id_for_label }}">
+        5.3{{ field.label }}{% if not field.field.required %} (optional) %}{% endif %}
+      </label>
+      {{ field }}
+      {% for error in field.errors %}
+        <p class="help-block materialize-red-text">
+          {{ error }}
+        </p>
+      {% endfor %}
+      {% if field.help_text %}
+        <p class="help-block">
+          {{ field.help_text|safe }}
+        </p>
+      {% endif %}
+    {% endif %}
+  </div>
+{% elif field|is_textarea %}
+6
+  <div class="input input-field col {{ classes.label }}">
+    <textarea id="{{ field.auto_id }}"
+              class="materialize-textarea {{ field.field.widget.attrs.class }}"
+              name="{{ field.name }}"
+              {% if field.field.disabled %} disabled {% endif %}>{% if field.value %}{{ field.value }}{% endif %}</textarea>
+    {% if field.auto_id %}
+      <label class="{{ classes.label }}" for="{{ field.auto_id }}">
+        {{ field.label }}
+        {% if not field.field.required %}
+          (optional)
+        {% endif %}
+      </label>
+    {% endif %}
+    {% for error in field.errors %}
+      <p class="help-block materialize-red-text">{{ error }}</p>
+    {% endfor %}
+    {% if field.help_text %}
+      <p class="help-block">
+        {{ field.help_text|safe }}
+      </p>
+    {% endif %}
+  </div>
+{% elif field|is_file %}
+7
+  <div class="input col {{ classes.label }}">
+    <p>
+      {% if field.auto_id %}
+        <label class="{{ classes.label }}" for="{{ field.auto_id }}">
+          {{ field.label }}
+          {% if not field.field.required %}
+            (optional)
+          {% endif %}
+        </label>
+        <br>
+      {% endif %}
+      {{ field }}
+    </p>
+  </div>
+
+{% elif field|is_date_range %}
+10
+  <div class="input-field input-range col s12 {{ classes.label }}">
+    <label class="active" for="{{ field.auto_id }}_0">
+      {{ field.label }}
+      {% if not field.field.required %}
+        (optional)
+      {% endif %}
+    </label>
+    {% for value in field.value %}
+      <input type="date" id="{{ field.auto_id }}" class="datepicker col s5" name="{{ field.name }}_{{ forloop.counter0 }}"
+        value="{% if field.value %}{{ field.value|date:'Y-m-d' }}{% endif %}" data-value="{% if field.value %}{{ field.value|date:'Y-m-d' }}{% endif %}">
+      {% for error in field.errors %}
+        <p class="help-block materialize-red-text">
+          {{ error }}
+        </p>
+      {% endfor %}
+      {% if field.help_text %}
+        <p class="help-block">
+          {{ field.help_text|safe }}
+        </p>
+      {% endif %}
+      {% if not forloop.last %}
+        <div class="col s2 center-align separator">-</div>
+      {% endif %}
+    {% endfor %}
+  </div>
+{% elif field|is_price_range %}
+11
+  <div class="input input-field input-range col s12 {{ classes.label }}">
+    <label class="active" for="{{ field.auto_id }}_0">
+      {{ field.label }}
+      {% if not field.field.required %}
+        (optional)
+      {% endif %}
+    </label>
+    <div>
+      {% for value in field.value %}
+        <div class="input-range--field">
+          <div class="input-with-suffix">
+            <input type="number" name="{{ field.name }}_{{ forloop.counter0 }}" value="{{ value }}"
+                   id="{{ field.auto_id }}_{{ forloop.counter0 }}">
+            <div class="input-text-suffix">{{ field.field.widget.currency }}</div>
+          </div>
+        </div>
+        {% for error in field.errors %}
+          <p class="help-block materialize-red-text">
+            {{ error }}
+          </p>
+        {% endfor %}
+        {% if field.help_text %}
+          <p class="help-block">
+            {{ field.help_text|safe }}
+          </p>
+        {% endif %}
+        {% if not forloop.last %}
+          <div class="center-align separator">-</div>
+        {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+{% elif field|is_range %}
+12
+  <div class="input input-field col s12 {{ classes.label }}">
+    <label class="active" for="{{ field.auto_id }}_0">
+      {{ field.label }}
+      {% if not field.field.required %}
+        (optional)
+      {% endif %}
+    </label>
+    {% for value in field.value %}
+      {% for error in field.errors %}
+        <p class="help-block materialize-red-text">
+          {{ error }}
+        </p>
+      {% endfor %}
+      {% if field.help_text %}
+        <p class="help-block">
+          {{ field.help_text|safe }}
+        </p>
+      {% endif %}
+      <input type="number" class="col s5"
+             name="{{ field.name }}_{{ forloop.counter0 }}" value="{{ value }}"
+             id="{{ field.auto_id }}_{{ forloop.counter0 }}">
+      {% if not forloop.last %}
+        <div class="col s2 center-align separator">-</div>
+      {% endif %}
+    {% endfor %}
+  </div>
+{% elif field|is_chars_left %}
+13
+  <div class="input input-field col {{ classes.label }}">
+    <div class="chars-left">
+      <label class="active chars-left__label" for="{{ field.auto_id }}">
+        {{ field.label }}
+        {% if not field.field.required %}
+        (optional)
+        {% endif %}
+      </label>
+      <span class="chars-left__count">
+        <span class="chars-left__count__current" data-bind="{{ field.auto_id }}">
+    </div>
+    {{ field }}
+    {% for error in field.errors %}
+      <p class="help-block materialize-red-text">{{ error }}</p>
+    {% endfor %}
+    {% if field.help_text %}
+      <p class="help-block">
+        {{ field.help_text|safe }}
+      </p>
+    {% endif %}
+  </div>
+{% else %}
+14
+  <div class="input input-field col {{ classes.label }}">
+    {% if field.auto_id %}
+      <label class="active" for="{{ field.auto_id }}">
+        0{{ field.label }}
+        {% if not field.field.required %}
+          (optional)
+        {% endif %}
+      </label>
+    {% endif %}
+    2{{ field }}
+    {% for error in field.errors %}
+      4<p class="help-block materialize-red-text">{{ error }}</p>
+    {% endfor %}
+    {% if field.help_text %}
+      <p class="help-block">
+        5{{ field.help_text|safe }}
+      </p>
+    {% endif %}
+  </div>
+{% endif %}
