@@ -139,11 +139,12 @@
                                         Каталог товаров
                                     </h3>
                                     <ul class="left-menu">
-                                        {% for category in categoryes %}
+                                        {% for cat in categoryes %}
                                         <li class="parent">
-                                            <a href="{% url 'product:category' category.slug  %}" id="button-cat">
-                                                {{ category.name }}
-                                            </a>
+                                            {% if cat %}
+                                                {{ cat.slug }}
+<!--                                            </a>-->
+                                            {% endif %}
                                             <!--&lt;!&ndash; Default dropright button &ndash;&gt;-->
                                             <!--<div class="btn-group dropright">-->
                                               <!--<button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">-->
