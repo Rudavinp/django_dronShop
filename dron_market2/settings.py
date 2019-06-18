@@ -40,7 +40,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY', 'lol')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = get_bool_from_env('DEBUG', True)
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['fierce-sea-48404.herokuapp.com']
 
 context_processors = [
     'django.contrib.auth.context_processors.auth',
