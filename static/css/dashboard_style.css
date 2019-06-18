@@ -8083,7 +8083,6 @@ svg.fill-secondary {
 	}
 }
 .breadcrumbs--history li:before {
-	content: url(/static/assets/chevron-right.svg);
 	vertical-align: text-bottom;
 	display: inline-block
 }
