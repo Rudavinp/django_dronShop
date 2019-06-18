@@ -3316,31 +3316,7 @@ nav .input-field label i {
 		height: 56px
 	}
 }
-@font-face {
-	font-family: Roboto;
-	src: local(Roboto Thin), url(/static/assets/Roboto-Thin.woff2) format("woff2"), url(/static/assets/Roboto-Thin.woff) format("woff");
-	font-weight: 100
-}
-@font-face {
-	font-family: Roboto;
-	src: local(Roboto Light), url(/static/assets/Roboto-Light.woff2) format("woff2"), url(/static/assets/Roboto-Light.woff) format("woff");
-	font-weight: 300
-}
-@font-face {
-	font-family: Roboto;
-	src: local(Roboto Regular), url(/static/assets/Roboto-Regular.woff2) format("woff2"), url(/static/assets/Roboto-Regular.woff) format("woff");
-	font-weight: 400
-}
-@font-face {
-	font-family: Roboto;
-	src: local(Roboto Medium), url(/static/assets/Roboto-Medium.woff2) format("woff2"), url(/static/assets/Roboto-Medium.woff) format("woff");
-	font-weight: 500
-}
-@font-face {
-	font-family: Roboto;
-	src: local(Roboto Bold), url(/static/assets/Roboto-Bold.woff2) format("woff2"), url(/static/assets/Roboto-Bold.woff) format("woff");
-	font-weight: 700
-}
+
 a {
 	text-decoration: none
 }
