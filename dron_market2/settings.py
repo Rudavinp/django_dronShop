@@ -35,7 +35,7 @@ def get_bool_from_env(env_value, default_value):
 
 # SECURITY WARNING: keep the secret key used in production secret!
 # SECRET_KEY = '==oiuy-d9pdg)saw2widi+ghkusn7k0=$!#@-+l^yjf&*-l^sb'
-SECRET_KEY = os.environ.get('SECRET_KEY')
+SECRET_KEY = os.environ.get('SECRET_KEY', 'lol')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = get_bool_from_env('DEBUG', True)
 
