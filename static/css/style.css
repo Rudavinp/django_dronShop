@@ -371,3 +371,13 @@ a.link--clean:hover {
     margin-right:1rem}
     @media (max-width:767.98px)
     {.maincontent{margin-top:7rem}}
+
+/* DASHBOARD */
+/* base */
+.side-nav {
+    width: 232px;
+    padding: 12px 8px 52px;
+    position: absolute;
+    top: 112px;
+    height: 100vh;
+    }

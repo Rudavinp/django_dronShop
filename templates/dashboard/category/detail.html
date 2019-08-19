@@ -1,9 +1,29 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>{{category.slug}}</title>
-</head>
+{% extends "dashboard/new_base.html" %}
+{% load static %}
+
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <span>
+                    {{ category.name }}
+                </span>
+                <h4>Описание:</h4>
+                <p>
+                    {{ category.description }}
+                </p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6">
+                <a href="{% url 'dashboard:category-edit' pk=category.pk %}">
+                    Редактировать категорию
+                </a>
+            </div>
+        </div>
+    </div>
+{% endblock %}
 <body>
     <p>Category Name<p/>
     {{ category.name }}

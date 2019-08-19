@@ -5,6 +5,7 @@ from .forms import ProductForm
 from .models import Product, Category
 
 def product(request, slug, product_id):
+	print(1111, request.build_absolute_uri())
 	product = Product.objects.get(id=product_id)
 	if slug != product.get_slug():
 		return HttpResponsePermanentRedirect(product.get_absolute_url())

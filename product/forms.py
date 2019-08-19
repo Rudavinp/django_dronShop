@@ -1,5 +1,5 @@
 from django import forms
-
+from django.contrib.auth.decorators import permission_required
 
 class ProductForm(forms.Form):
 

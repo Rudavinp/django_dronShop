@@ -70,6 +70,7 @@ class Product(models.Model):
         ]
         verbose_name = 'Товар'
         verbose_name_plural = 'Товары'
+        permissions = (('manage_products', 'Manage products'), )
 
     def __str__(self):
         return self.name

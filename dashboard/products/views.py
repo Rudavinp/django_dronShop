@@ -1,5 +1,6 @@
 from django.template.response import TemplateResponse
 from django.shortcuts import get_object_or_404, redirect, reverse
+from django.contrib.auth.decorators import permission_required
 
 from ..utils import get_paginator_items
 from product.models import Product, Attribute, AttributeValue, ProductType, Category
@@ -9,7 +10,7 @@ from . import forms
 
 DASHBOARD_PAGINATE_BY = 10
 
-
+@permission_required('product.manage_product', login_url='/')
 def product_list(request):
     products = Product.objects.all()
     product_type = ProductType.objects.all()
