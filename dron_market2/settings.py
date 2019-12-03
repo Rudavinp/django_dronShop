@@ -223,4 +223,4 @@ DEBUG_TOOLBAR_CONFIG = {
 if DEBUG:
    INTERNAL_IPS = ('127.0.0.1', 'localhost',)
 
-# django_heroku.settings(locals())
+django_heroku.settings(locals())
