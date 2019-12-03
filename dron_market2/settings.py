@@ -37,7 +37,7 @@ def get_bool_from_env(env_value, default_value):
 # SECRET_KEY = '==oiuy-d9pdg)saw2widi+ghkusn7k0=$!#@-+l^yjf&*-l^sb'
 SECRET_KEY = os.environ.get('SECRET_KEY', '==oiuy-d9pdg)saw2widi+ghkusn7k0=$!#@-+l^yjf&*-l^sb')
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get('DEBUG', False)
+DEBUG = False
 # DEBUG = TEMPLATE_DEBUG = True
 ALLOWED_HOSTS = [".herokuapp.com", ".researchthroughdesign.org"]
 
