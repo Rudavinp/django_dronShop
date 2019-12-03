@@ -1,0 +1,25 @@
+{% load staticfiles %}
+
+
+<div class="filter">
+    <form action="" method="get">
+        <div class="filter-content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    <div class="form-group">
+                        <label>Фильтры</label>
+                        {% for field in filter.form %}
+                        {{ field }}
+
+                        <small id="emailHelp" class="form-text text-muted">Введите название категории, которую хотите найти</small>
+                      </div>
+                        {% endfor %}
+                      <button type="submit" class="btn btn-info">Фильтровать</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    </form>
+</div>

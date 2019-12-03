@@ -93,7 +93,6 @@ def get_or_create_cart(request):
 	if request.user.is_authenticated:
 		cart_queryset = Cart.objects.all()
 		return cart_queryset.get_or_create(user=request.user)[0]
-
 	token = request.get_signed_cookie(COOKIE_NAME, default=None)
 	return Cart.objects.all().filter(token=token, user=None).get_or_create(
 		defaults={'user': None})[0]
@@ -123,7 +122,6 @@ def cart_index(request):
 	if cart is None:
 		cart = Cart()
 	products = cart.product_in_cart.all()
-	print(55555555, len(products))
 	for product in products:
 		form = ChangeQuantityForm(None, cart=cart, product=product)
 		products_for_cart.append({ 'quantity': product.quantity,
@@ -131,31 +129,25 @@ def cart_index(request):
 		                           'price': product.product.price,
 		                           'total_price': product.get_total_price(),
 		                           'form': form,})
-
 	total_price = cart.get_total()
-	print(11111, products_for_cart, total_price)
-
 	ctx = {
 		'product': products_for_cart,
 	    'total_price': total_price,
 	}
-
 	return TemplateResponse(request, 'orders/index.html', ctx)
 
 
 def add_to_cart(request, product_id):
 	products = Product.objects.all()
 	product = get_object_or_404(products, pk=product_id)
-	respons = views.product(request, product_id)
+	response = views.product(request, product.get_slug,  product_id)
 	cart = get_or_create_cart(request)
 	form = ProductForm(request.POST)
 	if form.is_valid():
 		save_to_cart(cart, product, form.cleaned_data['quantity'])
-
 	if not request.user.is_authenticated:
-		set_cart_cookie(cart, respons)
-
-	return respons
+		set_cart_cookie(cart, response)
+	return response
 
 
 def update_product_cart(request, product_id):
@@ -163,7 +155,6 @@ def update_product_cart(request, product_id):
 	# cart = Cart.objects.all().filter(token=token, user=None).first()
 	cart = get_cart_from_request(request)
 	product = get_object_or_404(ProductInCart, pk=product_id)
-	print(222333, product.product)
 	form = ChangeQuantityForm(request.POST, cart=cart, product=product.product)
 	if form.is_valid():
 		form.save()
@@ -178,7 +169,6 @@ def update_product_cart(request, product_id):
 
 
 def clear_cart(request):
-	print(11111111222222)
 	cart = get_or_create_cart(request)
 	cart.product_in_cart.all().delete()
 	return cart_index(request)

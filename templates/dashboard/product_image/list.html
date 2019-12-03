@@ -1,0 +1,24 @@
+{% extends "dashboard/new_base.html" %}
+{% load static %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <a href="{% url 'dashboard:product-add-image' prod_pk=product.pk %}">
+                Добавить изображение
+            </a>
+            <ul>
+                {% for image in images %}
+                    <li>
+                        {{ image.pk }}
+                        <img src="{{ image.image.url }}" width="189" height="200">
+                        <a href="{% url 'dashboard:product-image-delete' image_pk=image.pk %}">
+                            Удалить картинку
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+
+        </div>
+    </div>
+{% endblock %}

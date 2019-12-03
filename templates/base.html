@@ -51,7 +51,7 @@
                     </div>
                 </div>
             </div>
-
+            {% block navbar %}
             <nav class="navbar navbar-expand-md navbar-lihht fixed-top bg-light">
               <!--<a class="navbar-brand" href="/checkout/">QuadCopters</a>-->
               <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
@@ -67,6 +67,7 @@
                       <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Каталог
                       </button>
+                        {% block katalog %}
                       <div class="dropdown-menu">
                         <a class="dropdown-item" href="#">Action</a>
                         <a class="dropdown-item" href="#">Another action</a>
@@ -74,6 +75,7 @@
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="#">Separated link</a>
                       </div>
+                        {% endblock %}
                     </div>
                   </li>
                   <li class="nav-item">
@@ -93,11 +95,17 @@
                         <a class="dropdown-item" href="{% url 'account:signup' %}">Регистрация</a>
                         <a class="dropdown-item" href="{% url 'account:logout' %}">Выйти</a>
                       </div>
+                        {% if user.is_authenticated and user.is_staff %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'dashboard:index' %}">
+                                    Панель управления
+                                </a>
+                            </li>
+                        {% endif %}
                     </div>
                   </li>
                 </ul>
                 <ul class="navbar-nav mr-auto nav-cart">
-
                       <li class="nav-item active">
                           <div class="cart-container">
                             <a class="nav-link" href="{% url 'cart:index' %}">
@@ -123,12 +131,13 @@
                       </li>
                       </li>
                 </ul>
-                <form class="form-inline mt-2 mt-md-0">
-                  <input class="form-control mr-sm-2" type="text" placeholder="Поиск" aria-label="Search">
+                <form class="form-inline mt-2 mt-md-0" action="{% url 'product:search_results' %}" method="get">
+                  <input class="form-control mr-sm-2" name='q' type="text" placeholder="Поиск" aria-label="Search">
                   <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Найти</button>
                 </form>
               </div>
             </nav>
+            {% endblock%}
             {% block content %}
                 <!--<div class="section">-->
                     <!--<div class="container-fluid">-->

@@ -13,6 +13,16 @@
                 <p>
                     {{ category.description }}
                 </p>
+                <h4>Подкатегории:</h4>
+                {% if chieldren %}
+                    {% for chield in chieldren %}
+                        <span>
+                            {{ chield.name }}
+                        </span>
+                    {% endfor %}
+                {% endif %}
+
+
             </div>
         </div>
         <div class="row">
@@ -21,6 +31,12 @@
                     Редактировать категорию
                 </a>
             </div>
+            <div class="col-6">
+                <a href="{% url 'dashboard:category-add' root_pk=category.pk %}">
+                    Добавить подкатегорию
+                </a>
+            </div>
+
         </div>
     </div>
 {% endblock %}

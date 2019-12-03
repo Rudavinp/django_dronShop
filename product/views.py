@@ -4,11 +4,13 @@ from django.http import HttpResponsePermanentRedirect
 from .forms import ProductForm
 from .models import Product, Category
 
+
 def product(request, slug, product_id):
-	print(1111, request.build_absolute_uri())
+	print(1234455, type(request), request.COOKIES)
 	product = Product.objects.get(id=product_id)
-	if slug != product.get_slug():
+	if slug != product.get_slug:
 		return HttpResponsePermanentRedirect(product.get_absolute_url())
+	print(2222222, product.id)
 	session_key = request.session.session_key
 	if not session_key:
 		request.session.cycle_key()
@@ -20,8 +22,11 @@ def product(request, slug, product_id):
 		 'form': form}
 	)
 
+
 def category(request, category_slug):
 	products= Product.objects.filter(category__slug=category_slug)
+
+
 	return TemplateResponse(request,
 	                        'category/category.html',
 	                        {'products': products, },
@@ -33,3 +38,9 @@ def cart_adding(request):
 	print(user)
 	response = redirect('cart:cart')
 	return response
+
+
+def search(request):
+	query = request.GET.get('q')
+	results = Product.objects.filter(name__icontains=query)
+	return TemplateResponse(request, 'search/search_results.html', {'results':results})

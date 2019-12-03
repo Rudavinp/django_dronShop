@@ -6,6 +6,7 @@ from mptt.managers import TreeManager
 from core.models import SortedModel
 from django.utils.text import slugify
 from django.utils.encoding import smart_text
+from text_unidecode import unidecode
 from django.contrib.postgres.fields import HStoreField
 
 class Category(MPTTModel):
@@ -25,6 +26,9 @@ class Category(MPTTModel):
     def __str__(self):
         return self.name
 
+    @property
+    def get_slug(self):
+        return slugify(unidecode(self.name))
     # def get_absolute_url(self):
     # 	return reverse('shop:product_by_firm', args=[self.slug])
 
@@ -77,14 +81,15 @@ class Product(models.Model):
 
     def get_image(self):
         product_image = ProductImage.objects.filter(product=self, is_main=True)
-        print('product_image', product_image)
-        return product_image[0]
+        if product_image:
+            return product_image[0]
 
+    @property
     def get_slug(self):
-        return slugify(smart_text(self.name))
+        return slugify(unidecode(self.name))
 
     def get_absolute_url(self):
-        return reverse('product:product', kwargs={'slug': self.get_slug(), 'product_id':self.id,})
+        return reverse('product:product', kwargs={'slug': self.get_slug, 'product_id':self.id,})
 
 
 class ProductImage(models.Model):

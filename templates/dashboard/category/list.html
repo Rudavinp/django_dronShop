@@ -91,7 +91,7 @@
     <div class="col-3" id="filters">
       {% if not is_empty %}{% filters filter_set %}{% endif %}
       <div class="add" data-background-color="blue">
-        <a class="btn btn-success" href="#" role="button">Добавить</a>
+        <a class="btn btn-success" href="{% url 'dashboard:category-add'  %}">Добавить</a>
       </div>
     </div>
       </div>

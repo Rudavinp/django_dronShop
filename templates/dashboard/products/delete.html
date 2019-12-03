@@ -1,0 +1,16 @@
+{% extends "dashboard/new_base.html" %}
+
+{% block content %}
+<form method="POST">
+    {% csrf_token %}
+    <p>Вы действительно хотите удалить {{product}}</p>
+
+    <button type="submit">
+        Удалить
+    </button>
+</form>
+<a href="{% url 'dashboard:product-list' %}">
+        Отменить
+</a>
+
+{% endblock %}

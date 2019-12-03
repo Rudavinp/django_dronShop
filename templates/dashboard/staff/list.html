@@ -1,0 +1,32 @@
+{% extends "dashboard/new_base.html" %}
+
+{% load static %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                {% if staff %}
+                    <table class="table table-bordered">
+                      <thead>
+                        <tr>
+                          <th scope="col">#</th>
+                          <th scope="col">Name</th>
+                          <th scope="col">Email</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {% for man in staff %}
+                            <tr>
+                              <th scope="row">1</th>
+                              <td>name</td>
+                              <td> <a href="{% url 'dashboard:staff-detail' staff_pk=man.pk %}">{{man.email}} </a> </td>
+                            </tr>
+                        {% endfor %}
+                      </tbody>
+                    </table>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

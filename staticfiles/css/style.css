@@ -1,0 +1,383 @@
+
+html, body{
+    height: 100%;
+    max-height: 100%;
+    font-family: 'Roboto', sans-serif;
+    background-color: #edeef0;
+    padding-top: 70px;
+}
+
+body{
+    padding-top: 0px;
+    position: relative;
+    margin-top: 0px;
+}
+
+
+.top-container{
+    margin-bottom: 20px;
+    padding-top: 0%;
+    /*padding-top: 100px;*/
+}
+
+.section-top{
+    width:100%;
+    margin-bottom: 20px;
+    margin-top: 0px;
+    padding-top:1%;
+
+}
+.img-responsive {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 45px;
+
+}
+.navbar {
+    margin-top: 0;
+    margin-left: 50;
+    }
+
+.navbar__brand__cart__icon {
+    display:inline-block;
+    float: left;
+    }
+
+.navbar__brand__cart__icon svg {
+    vertical-align:middle
+    }
+.telephone {
+    position:relative;
+    }
+.telephone span{
+    padding-left: 10px;
+}
+.wrapper-product {
+    padding-top: 59px;
+}
+.row{
+
+    margin-bottom: 40px;
+}
+.wrapper{
+    min-height: 100%;
+}
+
+.wrapper-content{
+    overflow: auto;
+    padding-bottom: 180px;
+    padding-top: 100px;/* must be same height as the footer */
+}
+
+.wrapper-home {
+    margin-top: -19px;
+}
+
+.section-home {
+    padding-top: 40px;
+    }
+
+.product-elem {
+    height: 420px;
+    background-color: white;
+    position: relative;
+    border: 1px solid lightgrey;
+    padding: 10px 0 10px 0;
+    text-align: center;
+}
+
+.product-col {
+    padding-right: 0;
+    padding-left: 0;
+}
+
+.product-col-general {
+    padding-left: 50px;
+}
+
+.add-to-cart-btn {
+    position: absolute;
+    bottom: 15px;
+    left: 42px;
+}
+
+.product-price {
+    position: absolute;
+    left: 75px;
+    bottom:54px;
+}
+
+.discount-container {
+    position: absolute;
+    top: 34%;
+    background: #62d862;
+    width: 30%;
+    color: white;
+    font-weight: 700;
+    padding: 3px;
+}
+
+.section-delivery {
+    height: 300px;
+    background-color: darkseagreen;
+    text-align: center;
+    color: white;
+    padding-top: 10%;
+
+}
+
+.product-description-tabs {
+    padding: 10px 0 10px 0;
+}
+
+.cart-container{
+    position: relative;
+    width: 195px;
+}
+
+.cart-item {
+    position: absolute;
+    top: 46px;
+    width: 420px;
+    background-color: #b7bdb7;
+    padding: 10px 10px;
+
+}
+
+.navbar {
+    margin-top: 70px;
+}
+.nav-link {
+    font-size: 18px;
+    text-transform: uppercase;
+    color: grey;
+
+}
+
+.navbar-top {
+    height: 70px;
+    background-color: #c8dbe2;
+    padding: 3px 10px;
+}
+
+.form-error {
+    color: red;
+}
+
+.right-bar {
+    background-color: white;
+}
+
+ul.left-menu > li {
+    margin: 0px;
+    padding:3px;
+}
+
+ul.left-menu {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    margin-left: -10px;
+    list-style-type: none;
+    float: left;
+}
+
+ul.left-menu > li > a {
+    display: block;
+    margin: 0px;
+    padding: 7px 32px 7px 11px;
+    position: relative;
+    font-size: 16px;
+    font-weight: 700;
+    color: #575b71;
+    border: 1px solid #dee0ee;
+    border-radius: 4px;
+}
+
+.left-column h3 {
+    margin: 0px;
+    padding: 25px 0px 10px 0px;
+    font-size: 20px;
+    font-weight: 600;
+    color: #575b71;
+
+}
+
+.btn-danger {
+    background-color: #f8f9fa;
+    color: grey;
+    border: none;
+    font-size: 18px;
+    text-transform: uppercase;
+    margin-top: 2px;
+}
+.logo {
+    width: 150px;
+
+}
+.img-logo {
+    position: relative;
+    float: left;
+    }
+.text-logo {
+    font-size: 18px;
+    font-weight: 600;
+    text-shadow: 0px 4px 3px rgba(0,0,0,0.4),
+             0px 8px 13px rgba(0,0,0,0.1),
+             0px 18px 1px rgba(0,0,0,0.1);
+    position:relative;
+    margin-top:5px;
+    margin-left: 3px;
+    float: left;
+}
+
+.a-logo:hover {
+    color: #343a40;
+}
+
+.a-logo {
+    color: #343a40;
+    float: left;
+}
+
+.a-logo span{
+    color: #343a40;
+    float: right;
+}
+
+
+.contacts {
+    float:right;
+    position: relative;
+    margin-right: 25px ;
+    margin-top: 10px;
+    width: 155px;
+    padding-right: 25px;
+    font-weight:400;
+    color: ##171b1f;
+    font-style: italic;
+}
+
+.row-singup {
+    display: flex;
+    position: relative;
+}
+
+/* CART */
+.table__header {
+    border-bottom:1px solid #d3d1d0;
+    padding-bottom:0.5rem
+    }
+
+.cart__line.last {
+    border-bottom-color: #828282
+    }
+
+.table__row {
+    border-bottom: 1px solid #d3d1d0;
+    padding: 1rem 0
+    }
+.table__row {
+    border-bottom:1px solid #d3d1d0;
+    padding:1rem 0
+    }
+
+.cart__line__product a:hover {
+    color:#828282
+    }
+
+.cart__line__product a p {
+    display:inline-block;
+    margin-top:.5rem;
+    margin-bottom:0;
+    line-height:1rem
+    }
+
+.cart__line__product a p small {
+    color:#828282
+    }
+
+.cart__line__product a img {
+    vertical-align:top;margin-right:1rem
+    }
+
+a.link--clean {
+    color:#333
+    }
+a.link--clean:hover {
+    text-decoration:none
+    }
+
+@media (max-width:767.98px){
+.cart__line__quantity {
+    margin-bottom:.5rem
+    }
+    }
+
+.text-right {
+    text-align:right!important
+    }
+
+.btn.secondary {
+    border:1px solid #26a5d4;
+    padding:1rem 2rem;
+    background-color:#fff;
+    color:#26a5d4
+    }
+
+.btn.primary {
+    padding:1rem
+    }
+
+/* CHECKOUT */
+
+.checkout {
+    margin-bottom: 5rem
+    }
+
+.checkout__login {
+    margin:5rem 0 3rem;
+    border:1px solid #d3d1d0;
+    border-radius:4px;
+}
+
+.checkout__login__continue {
+    padding:2rem 0 1rem
+    }
+
+.checkout__login h3 {
+    margin-bottom:3rem
+    }
+
+/* ORDER */
+.order-details__table-header,
+.order-notes__header {
+    margin-top:2rem
+    }
+
+
+.footer {
+    background-color: #d3d1d0
+    }
+.footer {
+    background-color:#d3d1d0;
+    padding:2rem 0;
+    margin-top:8rem}
+    @media (max-width:575.98px)
+    {.footer{text-align:center;margin-top:2rem}}
+
+.social-footer {
+    margin-right:1rem}
+    @media (max-width:767.98px)
+    {.maincontent{margin-top:7rem}}
+
+/* DASHBOARD */
+/* base */
+.side-nav {
+    width: 232px;
+    padding: 12px 8px 52px;
+    position: absolute;
+    top: 112px;
+    height: 100vh;
+    }

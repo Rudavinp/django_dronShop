@@ -1,6 +1,6 @@
 from django import forms
 
-from product.models import Attribute, AttributeValue, ProductType, Product, Category
+from product.models import Attribute, AttributeValue, ProductType, Product, Category, ProductImage
 from django.utils.text import slugify
 from mptt.forms import TreeNodeChoiceField
 
@@ -46,7 +46,6 @@ class ProductForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         product_type = self.instance.product_type
         self.avalilabel_attributes = product_type.attribute.prefetch_related('attribute_value').all()
-        print(99999, self.avalilabel_attributes)
         for attribue in self.avalilabel_attributes:
             default_fields = {
                 'label': attribue.name,
@@ -57,7 +56,6 @@ class ProductForm(forms.ModelForm):
 
     def iter_atribute_fields(self):
         for attr in self.avalilabel_attributes:
-            print(11110000, self[attr.get_formfield_name()].name)
             yield self[attr.get_formfield_name()]
 
     def save(self, commit=True):
@@ -92,3 +90,11 @@ class AttributeValueForm(forms.ModelForm):
     def save(self, commit=True):
         self.instance.slug = slugify(self.instance.name)
         super().save(commit=commit)
+
+
+class ProductImageForm(forms.ModelForm):
+    # def __init__(self, *args, **kwargs):
+    #     super().__init__(*args, **kwargs)
+    class Meta:
+        model = ProductImage
+        exclude = ['product']

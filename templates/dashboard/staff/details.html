@@ -1,0 +1,37 @@
+{% extends "dashboard/new_base.html" %}
+
+{% load static %}
+
+{% block content %}
+12232323
+    <div class="containet">
+        <div class="row">
+            <div class="col-8">
+                {% if form %}
+                    <form method="post">
+                        {% csrf_token %}
+                          <div class="form-group row">
+                            <label for="staticEmail" class="col-sm-2 col-form-label">Email</label>
+                            <div class="col-sm-10">
+                              {{ form.email }}
+                            </div>
+                          </div>
+                          <div class="form-check">
+                              {{ form.is_staff }}
+                              <label class="form-check-label" for="defaultCheck1">
+                                Is_staff
+                              </label>
+                          </div>
+                          <div class="form-check">
+                              {{ form.is_active }}
+                              <label class="form-check-label" for="defaultCheck2">
+                                Is_active
+                              </label>
+                          </div>
+                          <button type="submit" class="btn btn-primary mb-2">Сохранить</button>
+                    </form>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
