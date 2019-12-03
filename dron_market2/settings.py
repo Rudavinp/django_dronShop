@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/2.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/2.0/ref/settings/
 """
-# import django_heroku
+import django_heroku
 import os
 import ast
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -73,7 +73,6 @@ INSTALLED_APPS = [
     'mptt',
     'debug_toolbar',
     'social_django',
-    'django-heroku'
 
 ]
 
