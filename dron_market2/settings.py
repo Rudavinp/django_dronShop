@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/2.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/2.0/ref/settings/
 """
-
+import django_heroku
 import os
 import ast
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -35,10 +35,10 @@ def get_bool_from_env(env_value, default_value):
 
 # SECURITY WARNING: keep the secret key used in production secret!
 # SECRET_KEY = '==oiuy-d9pdg)saw2widi+ghkusn7k0=$!#@-+l^yjf&*-l^sb'
-SECRET_KEY = os.environ.get('SECRET_KEY')
+SECRET_KEY = os.environ.get('SECRET_KEY', '==oiuy-d9pdg)saw2widi+ghkusn7k0=$!#@-+l^yjf&*-l^sb')
 # SECURITY WARNING: don't run with debug turned on in production!
-# DEBUG = get_bool_from_env('DEBUG', True)
-DEBUG = TEMPLATE_DEBUG = True
+DEBUG = os.environ.get('DEBUG', True)
+# DEBUG = TEMPLATE_DEBUG = True
 ALLOWED_HOSTS = []
 
 context_processors = [
@@ -73,6 +73,7 @@ INSTALLED_APPS = [
     'mptt',
     'debug_toolbar',
     'social_django',
+    'django-heroku'
 
 ]
 
@@ -220,3 +221,5 @@ DEBUG_TOOLBAR_CONFIG = {
 
 if DEBUG:
    INTERNAL_IPS = ('127.0.0.1', 'localhost',)
+
+django_heroku.settings(locals())
