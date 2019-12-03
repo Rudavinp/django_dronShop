@@ -1,1 +1,1 @@
-web:gunicorn dron_market2.wsgi --log-file -
+web: gunicorn dron_market2.wsgi --log-file -
