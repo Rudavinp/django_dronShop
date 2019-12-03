@@ -4,11 +4,13 @@
 {% block navbar %}
 {{ block.super }}
 {% block katalog %}
+	{% if categoryes %}
 	<div class="dropdown-menu">
 		{% for cat in categoryes %}
 			<a class="dropdown-item" href="{% url 'product:category' cat.get_slug %}">{{cat.name}}</a>
 		{% endfor %}
 	</div>
+	{% endfor %}
 {% endblock %}
 {% endblock %}
 {% block content %}
