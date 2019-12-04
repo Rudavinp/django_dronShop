@@ -40,7 +40,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY', '==oiuy-d9pdg)saw2widi+ghkusn7k0=$!#@-
 # DEBUG = False
 DEBUG = TEMPLATE_DEBUG = True
 
-ALLOWED_HOSTS = ["whispering-fjord-52293.herokuapp.com", ".researchthroughdesign.org"]
+ALLOWED_HOSTS = ["whispering-fjord-52293.herokuapp.com"]
 
 context_processors = [
 
@@ -229,4 +229,4 @@ DEBUG_TOOLBAR_CONFIG = {
 if DEBUG:
    INTERNAL_IPS = ('127.0.0.1', 'localhost',)
 
-django_heroku.settings(locals())
+# django_heroku.settings(locals())
