@@ -10,7 +10,7 @@
 			<a class="dropdown-item" href="{% url 'product:category' cat.get_slug %}">{{cat.name}}</a>
 		{% endfor %}
 	</div>
-	{% endfor %}
+	{% endif %}
 {% endblock %}
 {% endblock %}
 {% block content %}
