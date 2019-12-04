@@ -39,7 +39,8 @@ SECRET_KEY = os.environ.get('SECRET_KEY', '==oiuy-d9pdg)saw2widi+ghkusn7k0=$!#@-
 # SECURITY WARNING: don't run with debug turned on in production!
 # DEBUG = False
 DEBUG = TEMPLATE_DEBUG = True
-ALLOWED_HOSTS = [".herokuapp.com", ".researchthroughdesign.org"]
+
+ALLOWED_HOSTS = ["whispering-fjord-52293.herokuapp.com", ".researchthroughdesign.org"]
 
 context_processors = [
 
@@ -122,20 +123,22 @@ WSGI_APPLICATION = 'dron_market2.wsgi.application'
 #     }
 # }
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'postgres',
-        'USER': 'saleor',
-        'PASSWORD': 'saleor',
-        'HOST': 'localhost',
-        'PORT': '5432'
-    }
-}
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': 'postgres',
+#         'USER': 'saleor',
+#         'PASSWORD': 'saleor',
+#         'HOST': 'localhost',
+#         'PORT': '5432'
+#     }
+# }
 
 import dj_database_url
-db_from_env = dj_database_url.config(conn_max_age=500)
-DATABASES['default'].update(db_from_env)
+db_from_env = dj_database_url.config(conn_max_age=600)
+
+DATABASES={
+    'default':db_from_env}
 
 # Password validation
 # https://docs.djangoproject.com/en/2.0/ref/settings/#auth-password-validators
@@ -201,7 +204,8 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles',)
 
 # Simplified static file serving.
 # https://warehouse.python.org/project/whitenoise/
-STATICFILES_STORAGE = 'storage.WhiteNoiseStaticFilesStorage'
+# STATICFILES_STORAGE = 'storage.WhiteNoiseStaticFilesStorage'
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 DEBUG_TOOLBAR_PANELS = [
        'debug_toolbar.panels.versions.VersionsPanel',
