@@ -19,11 +19,6 @@ def home(request, product_id=1):
 
     products = ProductImage.objects.filter(is_main=True)
     categoryes = Category.objects.all()
-    cat = get_object_or_404(Category, pk=1)
-    print(2222, cat)
-    print(1111, products)
-    for product in products:
-        print(product.product.slug)
     # print('id: ', product_id)
     # print('request: ', list(request))
     # print('static_dir', settings.STATICFILES_DIRS)
