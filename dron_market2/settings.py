@@ -123,16 +123,16 @@ WSGI_APPLICATION = 'dron_market2.wsgi.application'
 #     }
 # }
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#         'NAME': 'postgres',
-#         'USER': 'saleor',
-#         'PASSWORD': 'saleor',
-#         'HOST': 'localhost',
-#         'PORT': '5432'
-#     }
-# }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'postgres',
+        'USER': 'saleor',
+        'PASSWORD': 'saleor',
+        'HOST': 'localhost',
+        'PORT': '5432'
+    }
+}
 
 import dj_database_url
 db_from_env = dj_database_url.config(conn_max_age=600)
@@ -190,17 +190,19 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
+
+
+
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles',)
 
 STATICFILES_DIRS = (
   os.path.join(BASE_DIR, 'static', ),
 )
-
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles',)
-
-
 
 # Simplified static file serving.
 # https://warehouse.python.org/project/whitenoise/
