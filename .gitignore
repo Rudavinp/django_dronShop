@@ -1,9 +1,7 @@
-<<<<<<< HEAD
 # Text backup files
 *.bak
 #Database
 *.sqlite3
 =======
 *.py[cod]
-.*
->>>>>>> 4eaa3f3203f0b6ef7631976519608564633963fb
+
