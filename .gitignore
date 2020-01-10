@@ -16,6 +16,7 @@ coverage.xml
 *.pot
 *.pyc
 local_settings.py
+.cpython-36.pyc
 
 .env
 db.sqlite3

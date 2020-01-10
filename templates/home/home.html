@@ -27,6 +27,9 @@
 				</div>
 				<div class="col-10 workarea product-col-general">
 					<div class="row">
+						<a class="btn btn-primary" href="{% url 'social:begin' 'google-oauth2' %}">
+				 	Google+
+			  	</a>
 						{% for product in products %}
 						<div class="col-lg-3 product-col">
 							<div class="product-elem">
