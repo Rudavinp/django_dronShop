@@ -39,7 +39,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY', '==oiuy-d9pdg)saw2widi+ghkusn7k0=$!#@-
 # SECURITY WARNING: don't run with debug turned on in production!
 # DEBUG = False
 DEBUG = TEMPLATE_DEBUG = True
-
+SITE_ID = 1
 ALLOWED_HOSTS = ["whispering-fjord-52293.herokuapp.com"]
 
 context_processors = [
@@ -126,9 +126,9 @@ WSGI_APPLICATION = 'dron_market2.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'postgres',
-        'USER': 'saleor',
-        'PASSWORD': 'saleor',
+        'NAME': 'saleor',
+        'USER': 'postgres',
+        'PASSWORD': None,
         'HOST': 'localhost',
         'PORT': '5432'
     }
@@ -137,24 +137,28 @@ DATABASES = {
 import dj_database_url
 db_from_env = dj_database_url.config(conn_max_age=600)
 
-DATABASES={
-    'default':db_from_env}
+# DATABASES={
+#     'default':db_from_env}
 
 # Password validation
 # https://docs.djangoproject.com/en/2.0/ref/settings/#auth-password-validators
 AUTHENTICATION_BACKENDS = [
+    'social_core.backends.google.GoogleOAuth',
     'social_core.backends.google.GoogleOAuth2',
     'django.contrib.auth.backends.ModelBackend',
-]
 
-SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '719421269894-eg0mlpjaiuvoq3rts8p5742riktc3968.apps.googleusercontent.com'
-SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'qALDXg6GeJcXHE7jTq56Z_go'
+]
+#new comment
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '622041767392-q5480allvhjrvechdel83qej2859pi02.apps.googleusercontent.com'
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'WAxoUqpDL3G8x8cLZFi5R5rC'
 
 SOCIAL_AUTH_URL_NAMESPACE = 'social'
 
 LOGIN_URL = '/account/login/'
 
 LOGIN_REDIRECT_URL = 'home'
+
+LOGOUT_REDIRECT_URL = '/'
 
 AUTH_USER_MODEL = 'account.User'
 

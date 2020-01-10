@@ -1,7 +1,28 @@
-# Text backup files
-*.bak
-#Database
-*.sqlite3
-=======
+
+# python
+__pycache__/
 *.py[cod]
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.coverage
+.cache
+nosetests.xml
+coverage.xml
+
+### Django ###
+*.log
+*.pot
+*.pyc
+local_settings.py
+
+.env
+db.sqlite3
+*.bak
+
+*.sqlite3
+
+*.py[c]
+
 

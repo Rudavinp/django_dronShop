@@ -39,7 +39,7 @@ urlpatterns = [
     path('account/', include((account_urls, 'account'), namespace='account')),
     path('cart/', include((cart_urls, 'cart'), namespace='cart')),
     path('dashboard/', include((dashboard_urls, 'dashboard'), namespace='dashboard')),
-    path('', include('social_django.urls', namespace='social')),
+    path('account/', include('social_django.urls', namespace='social')),
 ]
 #               + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) \
 #               + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
