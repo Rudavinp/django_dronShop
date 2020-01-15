@@ -1,4 +1,4 @@
-{% extends "dashboard/base.html" %}
+{% extends "dashboard/new_base.html" %}
 {% load static %}
 {% load utils %}
 
@@ -14,7 +14,7 @@
 
   <div class="btn-fab-fixed">
     <a class="btn-fab-default waves-effect waves-light" title="Add product type " href="{% url 'dashboard:product-type-add' %}">
-      <svg data-src="{% static "dashboard/images/add.svg" %}" />
+      21<svg data-src="{% static "dashboard/images/add.svg" %}" />
     </a>
   </div>
 
@@ -88,5 +88,8 @@
     <div class="col s12 l3" id="filters">
       {% if not is_empty %}{% filters filter_set %}{% endif %}
     </div>
+    <div class="add" data-background-color="blue">
+        <a class="btn btn-success" href="{% url 'dashboard:product-type-add' %}" role="button">Добавить</a>
+      </div>
   </div>
 {% endblock %}

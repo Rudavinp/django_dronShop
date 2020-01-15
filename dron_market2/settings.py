@@ -42,6 +42,12 @@ DEBUG = TEMPLATE_DEBUG = True
 SITE_ID = 1
 ALLOWED_HOSTS = ["whispering-fjord-52293.herokuapp.com"]
 
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'rudavinp@gmail.com'
+EMAIL_HOST_PASSWORD = 'Benzol3fosfat'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+    
 context_processors = [
 
     'django.contrib.auth.context_processors.auth',
@@ -143,7 +149,6 @@ db_from_env = dj_database_url.config(conn_max_age=600)
 # Password validation
 # https://docs.djangoproject.com/en/2.0/ref/settings/#auth-password-validators
 AUTHENTICATION_BACKENDS = [
-    'social_core.backends.google.GoogleOAuth',
     'social_core.backends.google.GoogleOAuth2',
     'django.contrib.auth.backends.ModelBackend',
 

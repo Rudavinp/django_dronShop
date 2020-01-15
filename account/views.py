@@ -25,16 +25,9 @@ def signup(request):
 
 
 def login(request):
-	print('login', request)
 	kwargs = {
 		'template_name': 'account/login.html',
 		'authentication_form': LoginForm}
-	kwargs1 = {
-		'template_name': 'account/login.html',
-		'authentication_form': LoginForm,
-		'lol': 'kek',
-		}
-	arg = 4
 	return django_views.LoginView.as_view(**kwargs)(request, **kwargs)
 
 

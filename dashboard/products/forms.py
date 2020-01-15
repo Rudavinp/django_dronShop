@@ -87,6 +87,13 @@ class AttributeValueForm(forms.ModelForm):
         fields = ['name', 'attribute']
         labels = {'name': 'Item name'}
 
+    def clean_name(self):
+        attr = self.instance.attribute
+        name = self.cleaned_data['name']
+        if name in [n.name for n in attr.attribute_value.all()]:
+            raise forms.ValidationError('This name is already exist')
+        return name
+
     def save(self, commit=True):
         self.instance.slug = slugify(self.instance.name)
         super().save(commit=commit)

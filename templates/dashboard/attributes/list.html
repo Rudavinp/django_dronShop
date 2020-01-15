@@ -1,4 +1,4 @@
-{% extends "dashboard/base.html" %}
+{% extends "dashboard/new_base.html" %}
 {% load static %}
 {% load utils %}
 
@@ -10,13 +10,7 @@
 
 {% block menu_attributes_class %}active{% endblock %}
 
-{% block header_extra %}
-  <div class="btn-fab-fixed">
-    <a class="btn-fab-default waves-effect waves-light" href="{% url 'dashboard:attribute-add' %}" title="Add attribute">
-      <svg data-src="{% static "dashboard/images/add.svg" %}" />
-    </a>
-  </div>
-{% endblock %}
+
 
 {% block breadcrumbs %}
   <ul class="breadcrumbs">
@@ -32,13 +26,10 @@
   <div class="row">
     <div class="col s12 l9">
       {% if attributes %}
-        <div class="card">
           <div class="data-table-container">
-            <table class="bordered highlight data-table data-table-description">
+            <table class="table-dashboard">
               <thead>
-                <tr>
-                  Name
-                  {% sorting_header 'name' label %}
+                <tr class="tr-dashboard">
                   <th>Product type</th>
                   <th>
                     Values
@@ -47,8 +38,6 @@
               </thead>
               <tbody>
                 {% for pk, name, values in attributes %}
-                {{ pk }}
-                <a href="{% url 'dashboard:attribute-detail' pk=pk %}">
                   <tr >
                     <td>
                       <a href="{% url 'dashboard:attribute-detail' pk=pk %}">
@@ -62,7 +51,7 @@
                       {% if values %}{{ values|join:", " }}{% else %}-{% endif %}
                     </td>
                   </tr>
-                  </a>
+
                 {% endfor %}
               </tbody>
             </table>
@@ -85,6 +74,9 @@
     </div>
     <div class="col s12 l3" id="filters">
       {% if not is_empty %}{% filters filter_set %}{% endif %}
+      <div class="add" data-background-color="blue">
+        <a class="btn btn-success" href="{% url 'dashboard:attribute-add'  %}">Добавить</a>
+      </div>
     </div>
   </div>
 {% endblock %}

@@ -18,7 +18,7 @@
 
 {% block header_extra %}
   <div class="btn-fab-fixed">
-    <a href="{% url 'dashboard:product-add' pproduct_types.0.pk %}" class="btn-fab-default waves-effect waves-light" title="Add category">
+    <a href="{% url 'dashboard:product-add' product_types.0.pk %}" class="btn-fab-default waves-effect waves-light" title="Add category">
       <svg data-src="{% static 'dashboard/images/add.svg' %}"/>
     </a>
   </div>
@@ -86,9 +86,11 @@
 
     <div class="col-3" id="filters">
       {% if not is_empty %}{% filters filter_set %}{% endif %}
+     {% if product_types %}
       <div class="add" data-background-color="blue">
         <a class="btn btn-success" href="{% url 'dashboard:product-add' product_types.0.pk %}" role="button">Добавить</a>
       </div>
+      {% endif %}
     </div>
       </div>
   </div>

@@ -1,4 +1,4 @@
-{% extends "dashboard/base.html" %}
+{% extends "dashboard/new_base.html" %}
 {% load static %}
 {% load utils %}
 
@@ -59,18 +59,12 @@
 {% block content %}
   <div class="row">
     <div class="col m12 l9">
-      <div class="card">
-        <form method="post" enctype="multipart/form-data" id="form-attributes" novalidate>
-          <div class="card-content card-content-form">
+        <form method="post">
             {% csrf_token %}
-            <div class="row">
-              {{ form.name|materializecss}}
-            </div>
-            <div class="row">
-              {{ form.slug|materializecss }}
-            </div>
-          </div>
-          <div class="card-action right-align">
+              <p>Attribute name</p>
+              {{ form.name}}
+              <p>Attribute slug</p>
+              {{ form.slug}}
             {% if attribute.pk %}
               <a href="{% url 'dashboard:attribute-details' attribute.pk %}" class="btn-flat waves-effect">
                 Cancel
@@ -79,17 +73,16 @@
                 Save
               </button>
             {% else %}
-              <a href="{% url 'dashboard:attributes-list' %}" class="btn-flat waves-effect">
-                Cancel
-              </a>
+
               <button type="submit" class="btn waves-effect">
                Create
               </button>
+           <a href="{% url 'dashboard:attributes-list' %}" class="btn-flat waves-effect">
+                Cancel
+              </a>
             {% endif %}
-          </div>
         </form>
       </div>
-    </div>
     <div class="col m12 l3 help-box"></div>
   </div>
 {% endblock %}

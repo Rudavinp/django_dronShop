@@ -16,13 +16,6 @@
   {{ block.super }}
 {% endblock %}
 
-{% block header_extra %}
-  <div class="btn-fab-fixed">
-    <a href="{% url 'dashboard:category-add' %}" class="btn-fab-default waves-effect waves-light" title="Add category">
-      <svg data-src="{% static 'dashboard/images/add.svg' %}"/>
-    </a>
-  </div>
-{% endblock %}
 
 {% block breadcrubs %}
 <nav aria-label="breadcrumb">

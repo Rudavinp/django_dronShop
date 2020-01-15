@@ -1,4 +1,4 @@
-{% extends "dashboard/base.html" %}
+{% extends "dashboard/new_base.html" %}
 {% load static %}
 
 {% block title %}
@@ -58,35 +58,35 @@
 {% block menu_catalogue_class %} active{% endblock %}
 
 {% block content %}
-  <div class="row">
-    <div class="col m12 l9">
-      <div class="card">
-        <form method="post" enctype="multipart/form-data" id="form-attributes" novalidate>
+  <div class="container-fluid dash-content">
+    <div class="row">
+        <form method="post" >
           {% csrf_token %}
-          <div class="card-content">
-            <span class="card-title">
-              Attribute values
-            </span>
-            <div class="row">
+            <h3 class="heading-dashboard">
+              <small class="text-muted" >Attribute values</small>
+            </h3>
               {{ form}}
+          <div class="row">
+            <div class="col-3">
+              <a href="{% url 'dashboard:attribute-detail' pk=attribute.pk %}" class="btn btn-success">
+                Cancel
+              </a>
             </div>
-          </div>
-          <div class="card-action right-align">
-            <a href="{% url 'dashboard:attribute-detail' pk=attribute.pk %}" class="btn-flat waves-effect">
-              Cancel
-            </a>
             {% if value.pk %}
-              <button type="submit" class="btn waves-effect">
+            <div class="col-3">
+              <button type="submit" class="btn btn-success">
                 Save
               </button>
+              </div>
             {% else %}
-              <button type="submit" class="btn waves-effect">
+            <div class="col-3">
+              <button type="submit" class="btn btn-success">
                 Create
               </button>
+              </div>
             {% endif %}
           </div>
         </form>
-      </div>
     </div>
     <div class="col m12 l3 help-box"></div>
   </div>

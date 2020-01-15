@@ -19,7 +19,7 @@ def sub(value, arg):
 @register.inclusion_tag('dashboard/includes/_filters1.html', takes_context=True)
 def filters(context, filter_set):
     chips = []
-    print(1, filter_set.form)
+    print(1, filter_set)
     return {
         'chips': chips,
         'filter': filter_set,

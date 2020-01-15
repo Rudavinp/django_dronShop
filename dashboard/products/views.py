@@ -10,6 +10,7 @@ from . import forms
 
 DASHBOARD_PAGINATE_BY = 10
 
+
 # @permission_required('product.manage_product', login_url='/')
 def product_list(request):
     products = Product.objects.all()
@@ -20,8 +21,10 @@ def product_list(request):
     ctx = {
         'products': products,
         'filter_set': product_filter,
-        'product_types': product_type
+        'product_types': product_type,
+
     }
+    print(12244)
     return TemplateResponse(request, 'dashboard/products/list.html', ctx)
 
 
@@ -113,7 +116,7 @@ def product_type_list(request):
     ctx = {
         'product_types': product_types, 'not_empty': True,
     }
-
+    print(2222222)
     return TemplateResponse(request, 'dashboard/product_type/list.html', ctx)
 
 
@@ -160,6 +163,7 @@ def attribute_details(request, pk):
     attribute = get_object_or_404(attributes, pk=pk)
     values = attribute.attribute_value.all()
     ctx = {'attribute': attribute, 'values': values, }
+    print(3232323)
     return TemplateResponse(request, 'dashboard/attributes/detail.html', ctx)
 
 
@@ -173,10 +177,12 @@ def attribute_add(request):
     return TemplateResponse(request, 'dashboard/attributes/form.html', ctx)
 
 
-def attribute_value_add(request, attribute_pk):
+def attribute_value_add(request, attribute_pk, value_pk=None):
     attribute = get_object_or_404(Attribute, pk=attribute_pk)
     value = AttributeValue(attribute_id=attribute_pk)
-    form = forms.AttributeValueForm(request.POST or None, instance=value)
+    if value_pk:
+        value = get_object_or_404(AttributeValue, pk=value_pk)
+    form = forms.AttributeValueForm(request.POST or None, instance=value, )
     if form.is_valid():
         form.save()
         return redirect('dashboard:attribute-detail', pk=attribute.pk)
@@ -184,3 +190,11 @@ def attribute_value_add(request, attribute_pk):
     return TemplateResponse(request, 'dashboard/attributes/value/form.html', ctx)
 
 
+# def attribute_value_edit(request, value_pk, attribute_pk):
+#     value = get_object_or_404(AttributeValue, pk=value_pk)
+#     form = forms.AttributeValueForm(request.POST or None, instance=value,)
+#     if form.is_valid():
+#         form.save()
+#         return redirect('dashboard:attribute-detail', pk=attribute_pk)
+#     ctx = {form:form}
+#     return TemplateResponse(request, 'dashboard/attributes/value/form.html', ctx)
