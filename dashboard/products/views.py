@@ -49,7 +49,6 @@ def product_choice_type(request):
 def product_create(request, type_pk=None):
     product_type = get_object_or_404(ProductType, pk=type_pk)
     product = Product()
-    print(2222, product.pk)
     product.product_type = product_type
     form = forms.ProductForm( request.POST or None, instance=product)
     if form.is_valid():
@@ -88,7 +87,6 @@ def product_image_delete(request, image_pk):
         product_image.delete()
         return redirect('dashboard:product-list')
     return TemplateResponse(request, 'dashboard/product_image/delete.html', {'product_image':product_image})
-
 
 
 def product_edit(request, pk):
@@ -150,7 +148,6 @@ def product_type_delete(request, pk):
     return TemplateResponse(request, 'dashboard/product_type/modal/confirm_delete.html', ctx)
 
 
-
 def attributes_list(request):
     attributes = Attribute.objects.prefetch_related('attribute_value')
     attributes = [(attribute.pk, attribute.name, attribute.attribute_value.all()) for attribute in attributes]
@@ -177,24 +174,30 @@ def attribute_add(request):
     return TemplateResponse(request, 'dashboard/attributes/form.html', ctx)
 
 
-def attribute_value_add(request, attribute_pk, value_pk=None):
+def attribute_value_add(request, attribute_pk):
     attribute = get_object_or_404(Attribute, pk=attribute_pk)
     value = AttributeValue(attribute_id=attribute_pk)
-    if value_pk:
-        value = get_object_or_404(AttributeValue, pk=value_pk)
     form = forms.AttributeValueForm(request.POST or None, instance=value, )
     if form.is_valid():
         form.save()
         return redirect('dashboard:attribute-detail', pk=attribute.pk)
-    ctx = {'attribute': attribute, 'value': value, 'form':form}
+    ctx = {'attribute': attribute, 'value': value, 'form': form}
     return TemplateResponse(request, 'dashboard/attributes/value/form.html', ctx)
 
 
-# def attribute_value_edit(request, value_pk, attribute_pk):
-#     value = get_object_or_404(AttributeValue, pk=value_pk)
-#     form = forms.AttributeValueForm(request.POST or None, instance=value,)
-#     if form.is_valid():
-#         form.save()
-#         return redirect('dashboard:attribute-detail', pk=attribute_pk)
-#     ctx = {form:form}
-#     return TemplateResponse(request, 'dashboard/attributes/value/form.html', ctx)
+def attribute_value_edit(request, value_pk, attribute_pk):
+    attribute = get_object_or_404(Attribute, pk=attribute_pk)
+    value = get_object_or_404(AttributeValue, pk=value_pk)
+    form = forms.AttributeValueForm(request.POST or None, instance=value,)
+    if form.is_valid():
+        form.save()
+        return redirect('dashboard:attribute-detail', pk=attribute_pk)
+    ctx = {'attribute': attribute, 'value': value, 'form': form}
+    return TemplateResponse(request, 'dashboard/attributes/value/form.html', ctx)
+
+
+def delete_value_edit(request, value_pk, attribute_pk):
+    # view like in products, but need TODO modal confirm page
+    value = get_object_or_404(AttributeValue, pk=value_pk)
+    value.delete()
+    return redirect('dashboard:attribute-detail', pk=attribute_pk)

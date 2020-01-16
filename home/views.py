@@ -7,23 +7,13 @@ from django.shortcuts import get_object_or_404
 
 from dron_market2 import settings
 
-def home(request, product_id=1):
-    def func(text):
-        return text.title()
 
-    lazy_func = lazy(func, str)
-
-    res = lazy_func('test')
-    print(res.find('T'))
-
+def home(request):
 
     products = ProductImage.objects.filter(is_main=True)
     categoryes = Category.objects.all()
-    # print('id: ', product_id)
-    # print('request: ', list(request))
-    # print('static_dir', settings.STATICFILES_DIRS)
-    # print('media_dir: ', settings.MEDIA_ROOT)
-    # print('tempate_dirs ', settings.TEMPLATES)
+    for p in products:
+        print(222, p.product.pk)
     return TemplateResponse(request, 'home/home.html',
                             {'products': products,
                              'categoryes': categoryes,

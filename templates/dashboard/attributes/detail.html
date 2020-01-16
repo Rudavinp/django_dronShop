@@ -80,7 +80,7 @@
                     <svg data-src="{% static "dashboard/images/reorder.svg" %}" height="20" width="20" fill="#000" />
                   </td>
                   <td>
-                    <a href="{% url 'dashboard:attribute-value-add' attribute_pk=attribute.pk value_pk=value.pk %}" >
+                    <a href="{% url 'dashboard:attribute-value-edit' attribute_pk=attribute.pk value_pk=value.pk %}" >
                     {{ value.name }}
                     </a>
                   </td>

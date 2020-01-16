@@ -25,6 +25,8 @@ urlpatterns = [
 	url(r'attributes/$', views.attributes_list, name='attributes-list'),
 	url(r'attributes/add/$', views.attribute_add, name='attribute-add'),
 	url(r'attributes/(?P<pk>[0-9]+)/$', views.attribute_details, name='attribute-detail'),
-    url(r'attributes/(?P<attribute_pk>[0-9]+)/value/add/$', views.attribute_value_add, name='attribute-value-add')
+    url(r'attributes/(?P<attribute_pk>[0-9]+)/value/add/$', views.attribute_value_add, name='attribute-value-add'),
+    url(r'attributes/(?P<attribute_pk>[0-9]+)/value/(?P<value_pk>[0-9]+)/add/$',
+		views.attribute_value_edit, name='attribute-value-edit')
 
 ]

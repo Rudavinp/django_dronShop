@@ -28,6 +28,7 @@ class ProductTypeForm(forms.ModelForm):
 class ProductForm(forms.ModelForm):
     category = TreeNodeChoiceField(queryset=Category.objects.all(),
                                    label='Category')
+
     def attribute_save(self):
         attributes = {}
         for attr in self.avalilabel_attributes:
@@ -35,8 +36,6 @@ class ProductForm(forms.ModelForm):
             if value:
                 attributes[attr.name] = value.name
         return attributes
-
-
 
     class Meta:
         model = Product
@@ -87,12 +86,12 @@ class AttributeValueForm(forms.ModelForm):
         fields = ['name', 'attribute']
         labels = {'name': 'Item name'}
 
-    def clean_name(self):
-        attr = self.instance.attribute
-        name = self.cleaned_data['name']
+    def clean(self):
+        cleaned_data = super(AttributeValueForm, self).clean()
+        attr = cleaned_data.get('attribute')
+        name = cleaned_data.get('name')
         if name in [n.name for n in attr.attribute_value.all()]:
             raise forms.ValidationError('This name is already exist')
-        return name
 
     def save(self, commit=True):
         self.instance.slug = slugify(self.instance.name)
