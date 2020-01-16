@@ -1,19 +1,19 @@
-{% extends "dashboard/base_modal.html" %}
+{% extends "dashboard/new_base.html" %}
 
 {% load utils %}
 
-{% block action_url %}
-  {% url "dashboard:product-add-select-type" %}
-{% endblock %}
-
-{% block title %}
-  Product type
-{% endblock %}
 
 {% block content %}
-  {{ form|materializecss }}
+  <form method="POST">
+    {% csrf_token %}
+    {{form}}
+    <button type="submit">
+      Create
+    </button>
+  </form>
+<a href="{% url 'dashboard:product-list' %}">
+        Отменить
+</a>
+
 {% endblock %}
 
-{% block primary_action %}
-  Create
-{% endblock %}

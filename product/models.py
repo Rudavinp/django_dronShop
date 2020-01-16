@@ -9,6 +9,7 @@ from django.utils.encoding import smart_text
 from text_unidecode import unidecode
 from django.contrib.postgres.fields import HStoreField
 
+
 class Category(MPTTModel):
     name = models.CharField(max_length=200)
     slug = models.SlugField(max_length=200, db_index=True, unique=True)
@@ -36,7 +37,6 @@ class Category(MPTTModel):
 class ProductType(models.Model):
     name = models.CharField(max_length=128, default='')
 
-
     def __str__(self):
         return self.name
 
@@ -44,7 +44,6 @@ class ProductType(models.Model):
         class_ = type(self)
         return '<%s.%s(pk=%r, name=%r)>' % (
             class_.__module__, class_.__name__, self.pk, self.name)
-
 
 
 class Product(models.Model):

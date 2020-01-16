@@ -24,7 +24,6 @@ def product_list(request):
         'product_types': product_type,
 
     }
-    print(12244)
     return TemplateResponse(request, 'dashboard/products/list.html', ctx)
 
 
@@ -114,7 +113,6 @@ def product_type_list(request):
     ctx = {
         'product_types': product_types, 'not_empty': True,
     }
-    print(2222222)
     return TemplateResponse(request, 'dashboard/product_type/list.html', ctx)
 
 
@@ -160,7 +158,6 @@ def attribute_details(request, pk):
     attribute = get_object_or_404(attributes, pk=pk)
     values = attribute.attribute_value.all()
     ctx = {'attribute': attribute, 'values': values, }
-    print(3232323)
     return TemplateResponse(request, 'dashboard/attributes/detail.html', ctx)
 
 
@@ -197,7 +194,8 @@ def attribute_value_edit(request, value_pk, attribute_pk):
 
 
 def delete_value_edit(request, value_pk, attribute_pk):
-    # view like in products, but need TODO modal confirm page
+    # view like in products, but need
+    # TODO modal confirm page or ajax
     value = get_object_or_404(AttributeValue, pk=value_pk)
     value.delete()
     return redirect('dashboard:attribute-detail', pk=attribute_pk)
