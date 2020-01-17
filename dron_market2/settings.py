@@ -110,7 +110,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
 
-                # 'order.context_processors.get_cart_info',
+                'order.context_processors.get_cart_info',
             ],
         },
     },

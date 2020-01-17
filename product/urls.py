@@ -6,7 +6,7 @@ urlpatterns = [
 
 	url(r'^(?P<category_slug>[a-z0-9]+\S+)/$', views.category, name='category'),
 
-	url(r'^cart_adding$', views.cart_adding, name='cart_adding'),
+	# url(r'^cart_adding$', views.cart_adding, name='cart_adding'),
 
 	url(r'^search_results', views.search, name='search_results')
 ]

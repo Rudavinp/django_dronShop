@@ -2,7 +2,7 @@
 {% load bootstrap_form from bootstrap4 %}
 
 {% block forms %}
-	<form method="post" novalidate>
+	<form method="post" novalidate autocomplete="on">
 		{% csrf_token %}
 		<h2>Адресс платильщика</h2>
 		{% bootstrap_form user_form %}

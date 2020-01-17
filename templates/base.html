@@ -114,15 +114,15 @@
                                 </div>
                                 Корзина
                                 <span class="sr-only">(current)</span><span id="cart_total_nmb">
-                                {% if products_total_nmb %}
-                                    ({{ products_total_nmb }})
+                                {% if cart|length > 0 %}
+                                    ({{ cart|length }})
                                 {% else %}
                                     (0)
                                 {% endif %}
                             </span></a>
                             <div class="cart-item d-none">
                               <ul>
-                                  {% for product_in_cart in products_in_cart %}
+                                  {% for product_in_cart in cart %}
                                     <li>{{ product_in_cart.product.name }} * {{ product_in_cart.nmb }} шт. = {{ product_in_cart.total_price }}</li>
                                   {% endfor %}
                               </ul>

@@ -3,16 +3,36 @@
 
 
 {% block content %}
-	<div class="row checkout__login">
-		<div class="col-12 col-md-6">
-			<div class="checkout__login__continue">
-				<h3>Новый покупатель?</h3>
+
+		<div class="container">
+			<div class="row">
+				<div class="col-12">
+					{% if request.user.is_anonymous %}
+						<h3>Новый покупатель?</h3>
+						<div class="col-12 col-md-6">
+							<a href="{% url 'account:login' %}" class="btn secondary narrow">
+								LogIn
+							</a>
+						</div>
+					{% else %}
+						<h3>Здравствуйте {{ request.user }}</h3>
+						<div class="col-4">
+							<a href="{% url 'account:login' %}" class="btn secondary narrow">
+								Сменить пользователя
+							</a>
+						</div>
+					{% endif %}
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-12">
+						<p>
+							<a href="{% url 'order:summary' %}" class="btn secondary narrow">
+            					Продолжить
+							</a>
+						</p>
+				</div>
 			</div>
 		</div>
-	</div>
-	<p>
-		<a href="{% url 'order:summary' %}" class="btn secondary narrow">
-            Продолжить?
-		</a>
-	</p>
+
 {% endblock %}

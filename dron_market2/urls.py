@@ -28,9 +28,6 @@ from account.urls import urlpatterns as account_urls
 from dashboard.urls import urlpatterns as dashboard_urls
 
 
-
-
-
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include(home_urls)),
@@ -41,11 +38,12 @@ urlpatterns = [
     path('dashboard/', include((dashboard_urls, 'dashboard'), namespace='dashboard')),
     path('account/', include('social_django.urls', namespace='social')),
 ]
-urlpatterns   += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) \
-              + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
 
 if settings.DEBUG:
     import debug_toolbar
     urlpatterns += [
         path('__debug__/', include(debug_toolbar.urls)),
     ]
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) \
+                   + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

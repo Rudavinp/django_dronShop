@@ -10,12 +10,9 @@ class CheckoutContactrForm(forms.Form):
 
 
 class ChangeQuantityForm(ProductForm):
-	# quantity = forms.IntegerField(min_value=0,
-	#                               initial=1, required=False)
 
 	def __init__(self, *args, **kwargs):
 		self.product = kwargs.pop('product')
-		print(111222, self.product)
 		self.cart = kwargs.pop('cart')
 		super().__init__(*args, **kwargs)
 		self.fields['quantity'].widget.attrs = {
@@ -38,6 +35,7 @@ class NoteCartForm(forms.ModelForm):
 	class Meta:
 		model = Cart
 		fields = ['note', ]
+
 
 class AnonimusUserEmailForm(forms.ModelForm):
 

@@ -62,10 +62,10 @@ def change_billing_address_in_cart(cart, address):
 	change, remove = _chek_new_cart_address(cart, address)
 
 	if change:
-			if remove:
-				cart.billing_address.delete()
-			cart.billing_address = address
-			cart.save(update_fields=['billing_address'])
+		if remove:
+			cart.billing_address.delete()
+		cart.billing_address = address
+		cart.save(update_fields=['billing_address'])
 
 
 def add_varian_to_order(order, product, quantity, total):

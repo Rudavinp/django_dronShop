@@ -1,10 +1,11 @@
-from .models import ProductInCart
+from .models import ProductInCart, Cart
+from .utils import get_cart_from_request
 
+def get_cart_info(request):
+    # session_key = request.session.session_key
+    # products_in_cart = ProductInCart.objects.filter(session_key=session_key)
+    # product_total_nmb = products_in_cart.count()
+    cart = get_cart_from_request(request)
 
-# def get_cart_info(request):
-# 	session_key = request.session.session_key
-#
-# 	products_in_cart = ProductInCart.objects.filter(session_key=session_key, is_active=True, order__isnull=True)
-# 	product_total_nmb = products_in_cart.count()
-#
-# 	return locals()
+    return {'cart': cart}
+    # return locals()

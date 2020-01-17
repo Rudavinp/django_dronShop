@@ -52,19 +52,14 @@ COOKIE_NAME = 'cart'
 
 
 def checkout(request):
-	print(111)
-	session_key=request.session.session_key
+	session_key = request.session.session_key
 	product_in_cart = ProductInCart.objects.filter(session_key=session_key, is_active=True, order__isnull=True)
 	form = CheckoutContactrForm(request.POST or None)
 	if request.POST:
-		print('post', request.POST)
 		if form.is_valid():
-			print('yes ', form)
 			data = request.POST
 			name = data.get('name', 'anonimus')
 			phone = data['phone']
-			# status = Status(id=3)
-			# status.save()
 			user, created = User.objects.get_or_create(username=phone, defaults={'first_name': name})
 			order = Order.objects.create(user=user, customer_name=name, customer_phone=phone, status_id=3)
 			for name, value in data.items():
@@ -74,14 +69,11 @@ def checkout(request):
 					product_in_cart.order = order
 					product_in_cart.nmb = value
 					product_in_cart.save(force_update=True)
-					print('product_it_cart', product_in_cart)
-
 					ProductInOrder.objects.create(product=product_in_cart.product,
 					                              nmb=product_in_cart.nmb,
 					                              price_per_item=product_in_cart.price_per_item,
 					                              total_price=product_in_cart.total_price,
 					                              order=order,)
-					print(id)
 	return render(request, 'orders/checkout.html', locals())
 
 
@@ -96,6 +88,7 @@ def get_or_create_cart(request):
 	token = request.get_signed_cookie(COOKIE_NAME, default=None)
 	return Cart.objects.all().filter(token=token, user=None).get_or_create(
 		defaults={'user': None})[0]
+
 
 def save_to_cart(cart, product, quantity, replace=False):
 	product, _ = cart.product_in_cart.get_or_create(product=product,
@@ -175,6 +168,7 @@ def clear_cart(request):
 
 
 def checkout_login(request):
+	# if request.user.is
 	ctx = {'form': LoginForm()}
 	return TemplateResponse(request, 'orders/login.html', ctx)
 
@@ -197,41 +191,33 @@ def _fill_order_with_cart_data(order, cart):
 	# return redirect('order:payment')
 
 
-
 def handle_order(request, cart):
 
 	"""Создает заказ"""
 
 	order_data = {}
 	total = cart.get_total()
-	print(50, type(total), total)
 	order_data.update({'user': cart.user,
-	                   'user_email': cart.user.email if cart.user else cart.email,
-	                   'billing_address': cart.billing_address,
-	                   'total': total,
-	                   'tracking_client_id': get_client_id(request)
-	                   })
+						'user_email': cart.user.email if cart.user else cart.email,
+						'billing_address': cart.billing_address,
+						'total': total,
+						'tracking_client_id': get_client_id(request)
+						})
 
 	order = Order.objects.create(**order_data)
 	_fill_order_with_cart_data(order, cart)
 
 	if not order:
 		print(60, order)
-
 		return redirect('chaeckout:summary')
 
-	user = cart.user
 	cart.delete()
-	print(61, order, order.lines)
-	for ord in order:
-		print(1, ord.product)
 	return redirect('order:payment', token=order.token)
 
 
 def anonimus_summary(request):
 
 	"""Выводит форму для создания заказа"""
-	updated = False
 	cart = get_or_create_cart(request)
 	note_form = NoteCartForm(request.POST or None, instance=cart)
 	user_form = AnonimusUserEmailForm(request.POST or None, instance=cart)
@@ -241,19 +227,14 @@ def anonimus_summary(request):
 		user_form.save()
 		address = address_form.save()
 		change_billing_address_in_cart(cart, address)
-		updated = True
-
-	if updated:
-		print(9999)
 		return handle_order(request, cart)
 
-	print(1000)
 	ctx = {
 		'note_form': note_form,
 		'user_form': user_form,
 		'address_form': address_form,
 	}
-	return TemplateResponse(request,'orders/summary_anonimus.html', ctx)
+	return TemplateResponse(request, 'orders/summary_anonimus.html', ctx)
 
 
 def payment(request, token):
