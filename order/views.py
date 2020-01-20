@@ -224,8 +224,6 @@ def anonimus_summary(request):
 	"""Выводит форму для создания заказа"""
 	cart = get_or_create_cart(request)
 	init_email = ''
-	address = request.user.addresses
-	print(address)
 	if request.user.is_authenticated:
 		init_email = request.user.email
 	note_form = NoteCartForm(request.POST or None, instance=cart)

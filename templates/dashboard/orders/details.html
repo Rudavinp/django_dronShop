@@ -3,5 +3,30 @@
 {% load static %}
 
 {% block content %}
+    <div class="container">
+        <div class="row">
+            {% if order %}
+            <div class="col-6">
+                <h3>Order # {{order.id}}</h3>
+                <h4>Total Price: {{order.total}} $</h4>
+                <p>Customer: {{order.user}}</p>
+                <p>Customer email: {{order.user_email}}</p>
+            </div>
+            <div class="col-6">
+                <h4>Order status: {{order.status}}</h4>
+                <p>Date created: {{order.created}}</p>
+            </div>
+            {% else %}
+            <h3> Order does not exist </h3>
+            {% endif %}
+        </div>
+        <div class="row">
+            <div class="col col-lg-2">
+                <a href="{% url 'dashboard:order-delete' order.pk %}">
+                    Delete
+                </a>
+            </div>
+        </div>
+    </div>
 
 {% endblock %}

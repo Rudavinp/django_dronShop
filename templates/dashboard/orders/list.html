@@ -32,7 +32,9 @@
                             {% for node in orders %}
                                 <tr class="tr-dashboard">
                                     <td>
-                                        {{ node.id }}
+                                        <a href="{% url 'dashboard:order-details' node.id %}">
+                                            {{ node.id }}
+                                        </a>
                                     </td>
                                     <td>
                                         {{node.created}}

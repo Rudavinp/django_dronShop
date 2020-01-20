@@ -80,8 +80,7 @@ INSTALLED_APPS = [
     'mptt',
     'debug_toolbar',
     'social_django',
-    'dal',
-    'dal_select2',
+
 
 ]
 

@@ -1,5 +1,5 @@
 from django.template.response import TemplateResponse
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, redirect
 
 from order.models import Order
 from ..utils import get_paginator_items
@@ -21,9 +21,18 @@ def order_list(request):
         ctx,)
 
 
-def order_details(request, order_id):
-    order = get_object_or_404(Order, pk=order_id)
+def order_details(request, order_pk):
+    order = get_object_or_404(Order, pk=order_pk)
     ctx = {'order': order}
     return TemplateResponse(request,
-                            'dashboard/detail.html',
+                            'dashboard/orders/details.html',
                             ctx,)
+
+
+def order_delete(request, order_pk):
+    order = get_object_or_404(Order, pk=order_pk)
+    if request.method == 'POST':
+        order.delete()
+        return redirect('dashboard:orders-list')
+    ctx = {'order': order}
+    return TemplateResponse(request, 'dashboard/orders/delete.html', ctx)

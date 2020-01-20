@@ -1,0 +1,23 @@
+{% extends "dashboard/new_base.html" %}
+
+{% load static %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-6">
+                <form method="post">
+                    {% csrf_token %}
+                    <span>Do you wont delete Order# {{order.pk}}</span>
+                    <button type="submit">Delete</button>
+                </form>
+            </div>
+            <div class="col-6">
+                <a href="{% url 'dashboard:order-details' order.pk %}">
+                    Cancel
+                </a>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
