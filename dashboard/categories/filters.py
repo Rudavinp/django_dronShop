@@ -11,8 +11,7 @@ class CategoryFilter(FilterSet):
     class Meta:
         model = Category
         fields = ['name']
-
-        filter_overrides= {
+        filter_overrides = {
             models.CharField: {
                 'filter_class': CharFilter,
                 'extra': lambda f: {

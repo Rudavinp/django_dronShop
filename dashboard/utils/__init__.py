@@ -6,6 +6,7 @@ def get_paginator_items(items, paginate_by, page_number):
 	if not page_number:
 		page_number = 1
 	paginator = Paginator(items, paginate_by)
+	print(2122, paginator)
 	try:
 		page_number = int(page_number)
 	except ValueError:
@@ -15,6 +16,6 @@ def get_paginator_items(items, paginate_by, page_number):
 		items = paginator.page(page_number)
 	except InvalidPage as err:
 		raise Http404('Неверная страница {}: {}'.format(page_number, str(err)))
-
+	print(434234, items)
 	return items
 

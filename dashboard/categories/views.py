@@ -16,6 +16,7 @@ def category_list(request):
                                      request.GET.get('page'))
     ctx = {'categories': categories, 'filter_set': category_filters,
            'is_empty': not category_filters.queryset.exists()}
+    print(23323, categories)
     return TemplateResponse(request, 'dashboard/category/list.html', ctx)
 
 

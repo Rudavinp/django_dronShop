@@ -1,0 +1,60 @@
+{% extends "dashboard/new_base.html" %}
+
+{% load static %}
+
+{% block content %}
+    <div class="container-fluid dash-content">
+        <div class="row">
+            <div class="col-9">
+                {% if orders %}
+                    <div class="data-table-container">
+                        <table class="table-dashboard">
+                            <thead>
+                                <tr class="tr-dashboard">
+                                    <th>
+                                        №
+                                    </th>
+                                    <th>
+                                        Date created
+                                    </th>
+                                    <th>
+                                        Total price
+                                    </th>
+                                    <th>
+                                        Status
+                                    </th>
+                                    <th>
+                                        Email
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            {% for node in orders %}
+                                <tr class="tr-dashboard">
+                                    <td>
+                                        {{ node.id }}
+                                    </td>
+                                    <td>
+                                        {{node.created}}
+                                    </td>
+                                    <td>
+                                        {{node.total}}
+                                    </td>
+                                    <td>
+                                        {{node.status}}
+                                    </td>
+                                    <td>
+                                        {{node.user_email}}
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %}
+                    <h3> No nodes yet</h3>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
