@@ -15,7 +15,6 @@ class Address(models.Model):
 	phonenumber = models.CharField(max_length=9, blank=True)
 
 
-
 class UserManager(BaseUserManager):
 
 	def create_user(
@@ -34,9 +33,9 @@ class UserManager(BaseUserManager):
 		return user
 
 	def create_superuser(self, email, password=None, **extra_fields):
-		print('lllllloooooollllll')
 		return self.create_user(
 			email, password, is_staff=True, is_superuser=True, **extra_fields)
+
 
 class User(AbstractBaseUser, PermissionsMixin):
 	email = models.EmailField(unique=True)
@@ -48,7 +47,6 @@ class User(AbstractBaseUser, PermissionsMixin):
 	USERNAME_FIELD = 'email'
 
 	objects = UserManager()
-
 
 	def get_full_name(self):
 		return self.email

@@ -44,8 +44,12 @@ class AnonimusUserEmailForm(forms.ModelForm):
 		fields = ['email', ]
 
 
+
+
+
+
 class AddressForm(forms.ModelForm):
 
 	class Meta:
 		model = Address
-		exclude = []
+		exclude = ['street_addres_2',]

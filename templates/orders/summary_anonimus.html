@@ -6,7 +6,10 @@
 		{% csrf_token %}
 		<h2>Адресс платильщика</h2>
 		{% bootstrap_form user_form %}
-		{% for field in adress_form %}
+		<p>Adreees</p>
+		{{ address_form.as_p}}
+		{% for field in adddress_form.as_pppp %}
+
 		<div class="row">
 			<div class="col-6">
 				{{field}}

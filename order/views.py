@@ -10,6 +10,8 @@ from product.forms import ProductForm
 from account.forms import LoginForm
 from django.db.models import Sum
 from .utils import get_cart_from_request, change_billing_address_in_cart, get_client_id
+from .task import send_order_message
+
 COOKIE_NAME = 'cart'
 # def cart_adding(request):
 # 	return_dict = {}
@@ -51,6 +53,10 @@ COOKIE_NAME = 'cart'
 # 	return JsonResponse(return_dict)
 
 
+# class EmailAutocomplete(autocomplete.Select2QuerySetView):
+# 	pass
+
+
 def checkout(request):
 	session_key = request.session.session_key
 	product_in_cart = ProductInCart.objects.filter(session_key=session_key, is_active=True, order__isnull=True)
@@ -65,7 +71,7 @@ def checkout(request):
 			for name, value in data.items():
 				if name.startswith('product_in_cart_'):
 					product_in_cart_id = name.split("product_in_cart_")[1]
-					product_in_cart = ProductInCart.objects.get(id      =product_in_cart_id)
+					product_in_cart = ProductInCart.objects.get(id=product_in_cart_id)
 					product_in_cart.order = order
 					product_in_cart.nmb = value
 					product_in_cart.save(force_update=True)
@@ -108,7 +114,6 @@ def save_to_cart(cart, product, quantity, replace=False):
 
 def cart_index(request):
 	products_for_cart = []
-
 	# token = request.get_signed_cookie(COOKIE_NAME, default=None)
 	# cart = Cart.objects.all().filter(token=token, user=None).first()
 	cart = get_cart_from_request(request)
@@ -192,19 +197,17 @@ def _fill_order_with_cart_data(order, cart):
 
 
 def handle_order(request, cart):
-
 	"""Создает заказ"""
-
 	order_data = {}
 	total = cart.get_total()
 	order_data.update({'user': cart.user,
-						'user_email': cart.user.email if cart.user else cart.email,
+						'user_email': cart.email,
 						'billing_address': cart.billing_address,
 						'total': total,
 						'tracking_client_id': get_client_id(request)
 						})
-
 	order = Order.objects.create(**order_data)
+	print(34234234, order.user)
 	_fill_order_with_cart_data(order, cart)
 
 	if not order:
@@ -212,6 +215,7 @@ def handle_order(request, cart):
 		return redirect('chaeckout:summary')
 
 	cart.delete()
+	send_order_message.delay(order.id)
 	return redirect('order:payment', token=order.token)
 
 
@@ -219,11 +223,17 @@ def anonimus_summary(request):
 
 	"""Выводит форму для создания заказа"""
 	cart = get_or_create_cart(request)
+	init_email = ''
+	address = request.user.addresses
+	print(address)
+	if request.user.is_authenticated:
+		init_email = request.user.email
 	note_form = NoteCartForm(request.POST or None, instance=cart)
-	user_form = AnonimusUserEmailForm(request.POST or None, instance=cart)
+	user_form = AnonimusUserEmailForm(request.POST or None, initial={'email': init_email}, instance=cart)
 	address_form = AddressForm(request.POST or None)
 
 	if user_form.is_valid() and address_form.is_valid():
+		print(user_form.cleaned_data)
 		user_form.save()
 		address = address_form.save()
 		change_billing_address_in_cart(cart, address)

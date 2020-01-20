@@ -3,7 +3,7 @@ from celery import Celery
 from django.conf import settings
 
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'dron_markety2.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'dron_market2.settings')
 
 app = Celery('dron_market2')
 
