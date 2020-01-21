@@ -4,8 +4,8 @@
 
 {% block content %}
     <div class="container">
+        {% if order %}
         <div class="row">
-            {% if order %}
             <div class="col-6">
                 <h3>Order # {{order.id}}</h3>
                 <h4>Total Price: {{order.total}} $</h4>
@@ -15,15 +15,72 @@
             <div class="col-6">
                 <h4>Order status: {{order.status}}</h4>
                 <p>Date created: {{order.created}}</p>
+                <h5>Tracking_id: {{order.tracking_client_id}}</h5>
+                <span>Token: {{order.token}}</span>
+
             </div>
-            {% else %}
-            <h3> Order does not exist </h3>
-            {% endif %}
         </div>
         <div class="row">
-            <div class="col col-lg-2">
-                <a href="{% url 'dashboard:order-delete' order.pk %}">
+            <div>
+                <table class="table-dashboard">
+                    <thead>
+                        <tr class="tr-dashboard">
+                            <th>
+                                Product name
+                            </th>
+                            <th>
+                                Product price
+                            </th>
+                            <th>
+                                Quantity
+                            </th>
+                            <th>
+                                Sub total
+                            </th>
+                            <th>
+                                Customer notes
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="tr-dashboard">
+                            {% for line in order %}
+                            <th>
+                                {{line.product_name}}
+                            </th>
+                            <th>
+                                {{line.product.price}}
+                            </th>
+                            <th>
+                                {{line.quantity}}
+                            </th>
+                            <th>
+                                {{line.sub_total}}
+                            </th>
+                            <th>
+                                {{line.customer_note}}
+                            </th>
+                            {% endfor %}
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        {% else %}
+            <h3> Order does not exist </h3>
+        {% endif %}
+        <div class="row">
+            <div class="col col-lg-3">
+                <a class="btn btn-success" href="{% url 'dashboard:order-delete' order.pk %}">
                     Delete
+                </a>
+            </div>
+            <div class="col col-lg-3">
+
+            </div>
+            <div class="col col-lg-3">
+                <a class="btn btn-success" href="{% url 'dashboard:orders-list' %}">
+                    Cancel
                 </a>
             </div>
         </div>

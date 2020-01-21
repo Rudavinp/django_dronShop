@@ -5,7 +5,7 @@ from .models import ProductInCart, ProductInOrder, Order
 from .forms import CheckoutContactrForm, ChangeQuantityForm, NoteCartForm, AnonimusUserEmailForm, AddressForm
 from django.contrib.auth.models import User
 from .models import Cart, Product
-from product import  views
+from product import views
 from product.forms import ProductForm
 from account.forms import LoginForm
 from django.db.models import Sum
@@ -173,7 +173,6 @@ def clear_cart(request):
 
 
 def checkout_login(request):
-	# if request.user.is
 	ctx = {'form': LoginForm()}
 	return TemplateResponse(request, 'orders/login.html', ctx)
 
@@ -183,11 +182,10 @@ def _fill_order_with_cart_data(order, cart):
 	"""Заполняет заказ продуктами из корзины"""
 
 	from .utils import add_varian_to_order
-
 	for line in cart:
 		add_varian_to_order(
 			order, line.product,
-			line.quantity, line.get_total_price
+			line.quantity, line.get_total_price()
 		)
 	if cart.note:
 		order.costume_note = cart.note
@@ -207,13 +205,10 @@ def handle_order(request, cart):
 						'tracking_client_id': get_client_id(request)
 						})
 	order = Order.objects.create(**order_data)
-	print(34234234, order.user)
 	_fill_order_with_cart_data(order, cart)
 
 	if not order:
-		print(60, order)
 		return redirect('chaeckout:summary')
-
 	cart.delete()
 	send_order_message.delay(order.id)
 	return redirect('order:payment', token=order.token)
@@ -231,7 +226,6 @@ def anonimus_summary(request):
 	address_form = AddressForm(request.POST or None)
 
 	if user_form.is_valid() and address_form.is_valid():
-		print(user_form.cleaned_data)
 		user_form.save()
 		address = address_form.save()
 		change_billing_address_in_cart(cart, address)

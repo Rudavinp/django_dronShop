@@ -6,7 +6,7 @@
     <div class="container-fluid dash-content">
         <div class="row">
             <div class="col-9">
-                {% if orders %}
+                {% if paginate %}
                     <div class="data-table-container">
                         <table class="table-dashboard">
                             <thead>
@@ -26,10 +26,13 @@
                                     <th>
                                         Email
                                     </th>
+                                    <th>
+                                        to_csv
+                                    </th>
                                 </tr>
                             </thead>
                             <tbody>
-                            {% for node in orders %}
+                            {% for node in paginate %}
                                 <tr class="tr-dashboard">
                                     <td>
                                         <a href="{% url 'dashboard:order-details' node.id %}">
@@ -47,6 +50,11 @@
                                     </td>
                                     <td>
                                         {{node.user_email}}
+                                    </td>
+                                    <td>
+                                        <a href="{% url 'dashboard:to-csv' node.id %}">
+                                            Download
+                                        </a>
                                     </td>
                                 </tr>
                             {% endfor %}

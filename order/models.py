@@ -70,7 +70,7 @@ class Order(models.Model):
 
 class OrderLine(models.Model):
     order = models.ForeignKey(
-        Order, related_name='lines',editable=False, on_delete=models.CASCADE
+        Order, related_name='lines', editable=False, on_delete=models.CASCADE
     )
     product = models.ForeignKey(
         Product, related_name="+", on_delete=models.SET_NULL,
@@ -82,7 +82,6 @@ class OrderLine(models.Model):
     )
     customer_note = models.TextField(blank=True, default='')
     sub_total = models.DecimalField(max_digits=9, decimal_places=2, default=0)
-
 
 
 class ProductInOrder(models.Model):

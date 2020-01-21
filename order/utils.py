@@ -78,10 +78,9 @@ def add_varian_to_order(order, product, quantity, total):
 		line.sub_total = total
 		line.save(update_fields=['quantity'])
 	except OrderLine.DoesNotExist:
-		product_name = product.name
 		order.lines.create(
-			product_name=product_name,
+			product_name=product.name,
 			quantity=quantity,
 			product=product,
-			# sub_total=total,
+			sub_total=total,
 		)
