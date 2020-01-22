@@ -1,0 +1,39 @@
+{% extends "dashboard/new_base.html" %}
+
+{% load static %}
+
+{% block content %}
+    <div class="container">
+        {% if coupon %}
+        <div class="row">
+            <div class="col-6">
+                <h3>Coupon: {{coupon.code}}</h3>
+                <h4>Discount: {{coupon.discount}} $</h4>
+            </div>
+            <div class="col-6">
+                <h4>coupon status: {{coupon.is_active}}</h4>
+                <p>Start date: {{coupon.start_date}}</p>
+                <span>End date: {{coupon.end_date}}</span>
+
+            </div>
+        </div>
+        {% else %}
+            <h3> coupon does not exist </h3>
+        {% endif %}
+        <div class="row">
+            <div class="col col-lg-3">
+            </div>
+            <div class="col col-lg-3">
+                <a class="btn btn-success" href="{% url 'dashboard:coupon-add' coupon.pk %}">
+                    Edit
+                </a>
+            </div>
+            <div class="col col-lg-3">
+                <a class="btn btn-success" href="{% url 'dashboard:coupons-list' %}">
+                    Cancel
+                </a>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

@@ -2,7 +2,7 @@ from django.http import JsonResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from django.template.response import TemplateResponse
 from .models import ProductInCart, ProductInOrder, Order
-from .forms import CheckoutContactrForm, ChangeQuantityForm, NoteCartForm, AnonimusUserEmailForm, AddressForm
+from .forms import CheckoutContactrForm, ChangeQuantityForm, NoteCartForm, AnonimusUserEmailForm, AddressForm, CartCouponForm
 from django.contrib.auth.models import User
 from .models import Cart, Product
 from product import views
@@ -11,6 +11,8 @@ from account.forms import LoginForm
 from django.db.models import Sum
 from .utils import get_cart_from_request, change_billing_address_in_cart, get_client_id
 from .task import send_order_message
+from discount.models import Coupon
+from decimal import Decimal
 
 COOKIE_NAME = 'cart'
 # def cart_adding(request):
@@ -117,6 +119,7 @@ def cart_index(request):
 	# token = request.get_signed_cookie(COOKIE_NAME, default=None)
 	# cart = Cart.objects.all().filter(token=token, user=None).first()
 	cart = get_cart_from_request(request)
+	print(2222, cart.discount)
 	if cart is None:
 		cart = Cart()
 	products = cart.product_in_cart.all()
@@ -127,10 +130,25 @@ def cart_index(request):
 		                           'price': product.product.price,
 		                           'total_price': product.get_total_price(),
 		                           'form': form,})
+	form_coupon = CartCouponForm(request.POST or None)
+
+	if request.POST:
+		print(99999999)
+		coupon = Coupon.objects.get(code=int(request.POST['code']))
+		discount = Decimal(1 - coupon.discount/100)
+		print(343434, type(discount))
+		cart.discount = discount
+		print(2223, cart.discount)
+		# return redirect('cart:index')
 	total_price = cart.get_total()
+
+
+	print(2224, cart.discount)
+
 	ctx = {
 		'product': products_for_cart,
 	    'total_price': total_price,
+		'form_coupon': form_coupon,
 	}
 	return TemplateResponse(request, 'orders/index.html', ctx)
 

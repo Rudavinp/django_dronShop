@@ -8,6 +8,7 @@ from order.models import Order
 from ..utils import get_paginator_items
 
 
+
 DASHBOARD_PAGINATE_BY = 30
 
 

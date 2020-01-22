@@ -74,6 +74,7 @@ INSTALLED_APPS = [
     'account',
     'dashboard',
     'core',
+    'discount',
     #external_apps
     'bootstrap4',
     'django_filters',

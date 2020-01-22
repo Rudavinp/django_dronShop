@@ -2,6 +2,7 @@ from django import forms
 from .models import Cart
 from product.forms import ProductForm
 from account.models import Address
+from django.core.validators import MaxValueValidator, MinValueValidator
 
 
 class CheckoutContactrForm(forms.Form):
@@ -53,3 +54,7 @@ class AddressForm(forms.ModelForm):
 	class Meta:
 		model = Address
 		exclude = ['street_addres_2',]
+
+
+class CartCouponForm(forms.Form):
+	code = forms.IntegerField()

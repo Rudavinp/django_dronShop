@@ -1,4 +1,4 @@
-
+from decimal import Decimal
 from django.db import models
 from uuid import uuid4
 from product.models import Product
@@ -164,6 +164,7 @@ class Cart(models.Model):
     billing_address = models.ForeignKey(
         Address, related_name='+', editable=False, null=True,
         on_delete=models.SET_NULL)
+    discount = models.DecimalField(max_digits=3, decimal_places=2, default=1)
 
     def __len__(self):
         return self.product_in_cart.count()
@@ -173,7 +174,8 @@ class Cart(models.Model):
 
     def get_total(self):
         subtotal = (line.get_total_price() for line in self)
-        return sum(subtotal)
+        total = sum(subtotal) * self.discount
+        return total.quantize(Decimal('0.01'))
 
 
 

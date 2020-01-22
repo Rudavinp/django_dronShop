@@ -31,7 +31,6 @@ def category_edit(request, pk=None):
     return TemplateResponse(request, 'dashboard/category/form.html', ctx)
 
 
-
 def category_create(request, root_pk=None):
     ancestor = None
     category = Category()
@@ -52,6 +51,7 @@ def categoty_details(request, pk):
     chieldren = category.get_children()
     ctx = {'category' : category, 'chieldren': chieldren}
     return TemplateResponse(request, 'dashboard/category/detail.html', ctx)
+
 
 def category_delete(request, pk):
     category = get_object_or_404(Category, pk=pk)
