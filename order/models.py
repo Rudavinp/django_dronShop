@@ -175,7 +175,10 @@ class Cart(models.Model):
     def get_total(self):
         subtotal = (line.get_total_price() for line in self)
         total = sum(subtotal) * self.discount
-        return total.quantize(Decimal('0.01'))
+        if total:
+            return total.quantize(Decimal('0.01'))
+        return total
+
 
 
 

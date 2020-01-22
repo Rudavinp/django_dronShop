@@ -99,6 +99,7 @@ def get_or_create_cart(request):
 
 
 def save_to_cart(cart, product, quantity, replace=False):
+	print(43543535)
 	product, _ = cart.product_in_cart.get_or_create(product=product,
 	                                                defaults={'quantity':0})
 	if not replace:
@@ -116,10 +117,7 @@ def save_to_cart(cart, product, quantity, replace=False):
 
 def cart_index(request):
 	products_for_cart = []
-	# token = request.get_signed_cookie(COOKIE_NAME, default=None)
-	# cart = Cart.objects.all().filter(token=token, user=None).first()
 	cart = get_cart_from_request(request)
-	print(2222, cart.discount)
 	if cart is None:
 		cart = Cart()
 	products = cart.product_in_cart.all()
@@ -130,20 +128,14 @@ def cart_index(request):
 		                           'price': product.product.price,
 		                           'total_price': product.get_total_price(),
 		                           'form': form,})
-	form_coupon = CartCouponForm(request.POST or None)
 
-	if request.POST:
-		print(99999999)
+	form_coupon = CartCouponForm(request.POST or None)
+	if request.POST and getattr(request.POST, 'code', False):
+		print(12312)
 		coupon = Coupon.objects.get(code=int(request.POST['code']))
 		discount = Decimal(1 - coupon.discount/100)
-		print(343434, type(discount))
 		cart.discount = discount
-		print(2223, cart.discount)
-		# return redirect('cart:index')
 	total_price = cart.get_total()
-
-
-	print(2224, cart.discount)
 
 	ctx = {
 		'product': products_for_cart,
@@ -167,11 +159,11 @@ def add_to_cart(request, product_id):
 
 
 def update_product_cart(request, product_id):
-	# token = request.get_signed_cookie(COOKIE_NAME, default=None)
-	# cart = Cart.objects.all().filter(token=token, user=None).first()
+	print(5555555)
 	cart = get_cart_from_request(request)
-	product = get_object_or_404(ProductInCart, pk=product_id)
-	form = ChangeQuantityForm(request.POST, cart=cart, product=product.product)
+
+	product = get_object_or_404(Product, pk=product_id)
+	form = ChangeQuantityForm(request.POST, cart=cart, product=product)
 	if form.is_valid():
 		form.save()
 		response = {
