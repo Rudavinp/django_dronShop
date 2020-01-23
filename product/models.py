@@ -8,6 +8,7 @@ from django.utils.text import slugify
 from django.utils.encoding import smart_text
 from text_unidecode import unidecode
 from django.contrib.postgres.fields import HStoreField
+from discount.models import Sale
 
 
 class Category(MPTTModel):
@@ -65,6 +66,8 @@ class Product(models.Model):
     quantity = models.IntegerField(validators=
                                    [MinValueValidator(0)], default=0)
     attributes = HStoreField(default=dict, blank=True)
+    sale = models.ForeignKey(Sale, null=True, blank=True, related_name='products',
+                                 on_delete=models.CASCADE)
 
     class Meta:
         ordering = ['name']

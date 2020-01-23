@@ -1,10 +1,9 @@
 from django.template.response import TemplateResponse
 from django.shortcuts import get_object_or_404, redirect
 from django.http import HttpResponse
-from .forms import CouponForm
+from .forms import CouponForm, SaleForm
 
-
-from discount.models import Coupon
+from discount.models import Coupon, Sale
 from ..utils import get_paginator_items
 
 DASHBOARD_PAGINATE_BY = 30
@@ -20,7 +19,7 @@ def coupons_list(request):
     ctx = {'coupons': coupons, 'paginate': paginate_coupons}
     return TemplateResponse(
         request,
-        'dashboard/discount/list.html',
+        'dashboard/discount/coupons/list.html',
         ctx,)
 
 
@@ -28,7 +27,7 @@ def coupon_details(request, coupon_pk):
     coupon = get_object_or_404(Coupon, pk=coupon_pk)
     ctx = {'coupon': coupon}
     return TemplateResponse(request,
-                            'dashboard/discount/details.html',
+                            'dashboard/discount/coupons/details.html',
                             ctx,)
 
 
@@ -41,6 +40,40 @@ def coupon_create(request, pk=None):
         form.save()
         return redirect('dashboard:coupons-list')
     ctx = {'form': form}
-    return TemplateResponse(request, 'dashboard/discount/form.html', ctx)
+    return TemplateResponse(request, 'dashboard/discount/coupons/form.html', ctx)
 
 
+def sales_list(request):
+    sales = Sale.objects.all()
+    paginate_sales = get_paginator_items(
+        sales,
+        DASHBOARD_PAGINATE_BY,
+        request.GET.get('page')
+    )
+    ctx = {'sales': sales, 'paginate': paginate_sales}
+    return TemplateResponse(
+        request,
+        'dashboard/discount/sales/list.html',
+        ctx,)
+
+
+def sale_details(request, sale_pk):
+    sale = get_object_or_404(Sale, pk=sale_pk)
+    for s in sale.products:
+        print(s)
+    ctx = {'sale': sale}
+    return TemplateResponse(request,
+                            'dashboard/discount/sales/details.html',
+                            ctx,)
+
+
+def sale_create(request, pk=None):
+    sale = None
+    if pk:
+        sale = get_object_or_404(Sale, pk=pk)
+    form = SaleForm(request.POST or None, instance=sale)
+    if form.is_valid():
+        form.save()
+        return redirect('dashboard:sales-list')
+    ctx = {'form': form}
+    return TemplateResponse(request, 'dashboard/discount/sales/form.html', ctx)

@@ -1,0 +1,43 @@
+{% extends "dashboard/new_base.html" %}
+
+{% load static %}
+
+{% block content %}
+    <div class="container">
+        {% if sale %}
+        <div class="row">
+            <div class="col-6">
+                <h3>Sale: {{sale.name}}</h3>
+                <h4>Discount: {{sale.discount}} $</h4>
+                <h3>Products:</h3>
+                {% for product in sale.products.all() %}
+                <p>{{product}}</p>
+                {% endfor %}
+            </div>
+            <div class="col-6">
+                <h4>sale status: {{sale.is_active}}</h4>
+                <p>Start date: {{sale.start_date}}</p>
+                <span>End date: {{sale.end_date}}</span>
+
+            </div>
+        </div>
+        {% else %}
+            <h3> sale does not exist </h3>
+        {% endif %}
+        <div class="row">
+            <div class="col col-lg-3">
+            </div>
+            <div class="col col-lg-3">
+                <a class="btn btn-success" href="{% url 'dashboard:sale-add' sale.pk %}">
+                    Edit
+                </a>
+            </div>
+            <div class="col col-lg-3">
+                <a class="btn btn-success" href="{% url 'dashboard:sales-list' %}">
+                    Cancel
+                </a>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

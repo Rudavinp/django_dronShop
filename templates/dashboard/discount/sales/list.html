@@ -1,0 +1,75 @@
+{% extends "dashboard/new_base.html" %}
+
+{% load static %}
+
+{% block content %}
+    <div class="container-fluid dash-content">
+        <div class="row">
+            <div class="col-9">
+                {% if paginate %}
+                    <div class="data-table-container">
+                        <table class="table-dashboard">
+                            <thead>
+                                <tr class="tr-dashboard">
+                                    <th>
+                                        Name
+                                    </th>
+                                    <th>
+                                        Date start
+                                    </th>
+                                    <th>
+                                        Date end
+                                    </th>
+                                    <th>
+                                        Discount
+                                    </th>
+                                    <th>
+                                        Status
+                                    </th>
+                                    <th>
+                                        Products
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            {% for node in paginate %}
+                                <tr class="tr-dashboard">
+                                    <td>
+                                        <a href="{% url 'dashboard:sale-details' node.id %}">
+                                            {{ node.name }}
+                                        </a>
+                                    </td>
+                                    <td>
+                                        {{node.start_date}}
+                                    </td>
+                                    <td>
+                                        {{node.end_date}}
+                                    </td>
+                                    <td>
+                                        {{node.discount}}
+                                    </td>
+                                    <td>
+                                        {{node.is_active}}
+                                    </td>
+                                    <td>
+                                        {{node.products}}
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %}
+                    <h3> No coupons yet</h3>
+                {% endif %}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3">
+            <a class="btn btn-success" href="{% url 'dashboard:sale-add' %}">
+                Add
+            </a>
+            </div>
+        </div>
+    </div>
+{% endblock %}
