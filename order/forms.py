@@ -2,7 +2,9 @@ from django import forms
 from .models import Cart
 from product.forms import ProductForm
 from account.models import Address
-from django.core.validators import MaxValueValidator, MinValueValidator
+from discount.models import Coupon
+from django.core.exceptions import ObjectDoesNotExist
+from django.utils import timezone
 
 
 class CheckoutContactrForm(forms.Form):
@@ -56,5 +58,23 @@ class AddressForm(forms.ModelForm):
 		exclude = ['street_addres_2',]
 
 
+
 class CartCouponForm(forms.Form):
+
 	code = forms.IntegerField()
+
+	def clean(self):
+		code = self.cleaned_data.get('code')
+		try:
+			coupon = Coupon.objects.get(code=code)
+		except ObjectDoesNotExist:
+			raise forms.ValidationError('Wrong code',)
+
+		if timezone.now().date() > coupon.end_date:
+			raise forms.ValidationError('Coupon already not active', )
+		elif timezone.now().date() < coupon.start_date:
+			raise forms.ValidationError('Coupon not active yet', )
+		if not coupon.is_active:
+			raise forms.ValidationError('Coupon not active',)
+		return code
+

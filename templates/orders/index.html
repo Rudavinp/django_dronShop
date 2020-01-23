@@ -58,7 +58,7 @@
 		</div>
 		<div class="row">
 			<div class="col-md-4">
-				<form method="post">
+				<form method="post" action="{% url 'cart:apply-discount' code %}">
 					{% csrf_token %}
 					{{form_coupon.as_p}}
 					<button type="submit">

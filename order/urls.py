@@ -20,6 +20,7 @@ urlpatterns = [
 cart_urlpatterns = [
 	url(r'^$', views.cart_index, name='index'),
 	url(r'^update/(?P<product_id>\d+)/$', views.update_product_cart, name='update_product'),
+	url(r'apply-discount/(?P<code>[0-9]+)/$', views.apply_discount_cart, name='apply-discount'),
 	url(r'^clear-cart/$',views.clear_cart, name='clear-cart')
 ]
 

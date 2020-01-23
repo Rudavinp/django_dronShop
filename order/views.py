@@ -99,7 +99,6 @@ def get_or_create_cart(request):
 
 
 def save_to_cart(cart, product, quantity, replace=False):
-	print(43543535)
 	product, _ = cart.product_in_cart.get_or_create(product=product,
 	                                                defaults={'quantity':0})
 	if not replace:
@@ -117,6 +116,7 @@ def save_to_cart(cart, product, quantity, replace=False):
 
 def cart_index(request):
 	products_for_cart = []
+	code = 0
 	cart = get_cart_from_request(request)
 	if cart is None:
 		cart = Cart()
@@ -130,17 +130,13 @@ def cart_index(request):
 		                           'form': form,})
 
 	form_coupon = CartCouponForm(request.POST or None)
-	if request.POST and getattr(request.POST, 'code', False):
-		print(12312)
-		coupon = Coupon.objects.get(code=int(request.POST['code']))
-		discount = Decimal(1 - coupon.discount/100)
-		cart.discount = discount
-	total_price = cart.get_total()
 
+	total_price = cart.get_total()
 	ctx = {
 		'product': products_for_cart,
 	    'total_price': total_price,
 		'form_coupon': form_coupon,
+		'code': code
 	}
 	return TemplateResponse(request, 'orders/index.html', ctx)
 
@@ -159,7 +155,6 @@ def add_to_cart(request, product_id):
 
 
 def update_product_cart(request, product_id):
-	print(5555555)
 	cart = get_cart_from_request(request)
 
 	product = get_object_or_404(Product, pk=product_id)
@@ -172,9 +167,22 @@ def update_product_cart(request, product_id):
 				'numProduct': len(cart)
 			}
 		}
-	return cart_index(request)
-	# return JsonResponse(response,)
+	return redirect('cart:index')
 
+
+def apply_discount_cart(request, code):
+	"""Применяет скидку к общей сумме товаров в корзине"""
+	if not code:
+		return redirect('cart:index')
+	form_coupon = CartCouponForm(request.POST or None)
+	if form_coupon.is_valid():
+		coupon = Coupon.objects.get(code=int(request.POST['code']))
+		discount = Decimal(1 - coupon.discount / 100)
+		cart = get_cart_from_request(request)
+		cart.discount = discount
+		cart.save()
+		return redirect('cart:index')
+	return (cart_index(request))
 
 def clear_cart(request):
 	cart = get_or_create_cart(request)
@@ -201,7 +209,6 @@ def _fill_order_with_cart_data(order, cart):
 		order.costume_note = cart.note
 		order.save(update_fields=['customer_note'])
 
-	# return redirect('order:payment')
 
 
 def handle_order(request, cart):
@@ -225,7 +232,6 @@ def handle_order(request, cart):
 
 
 def anonimus_summary(request):
-
 	"""Выводит форму для создания заказа"""
 	cart = get_or_create_cart(request)
 	init_email = ''
