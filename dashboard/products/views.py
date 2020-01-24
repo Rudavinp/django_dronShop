@@ -117,12 +117,17 @@ def product_type_list(request):
 
 
 def product_type_add(request):
-    product_type = ProductType()
-    form = forms.ProductTypeForm(request.POST or None, instance=product_type)
+    product_type = ProductType.objects.get(pk=2)
+    attr = Attribute.objects.all().filter(type_attribute=None, type_attribute__exact=product_type)
+    for at in attr:
+        print(1233, at.type_attribute == product_type)
+        print(1235, at.type_attribute)
+        # print(1234, product_type)
+    form = forms.ProductTypeForm(request.POST or None)
     if form.is_valid():
         form.save()
         return redirect('dashboard:product-type-list')
-    ctx = {'form':form, 'product_type':product_type}
+    ctx = {'form':form,}
     return TemplateResponse(request, 'dashboard/product_type/form.html', ctx)
 
 

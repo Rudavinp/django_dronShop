@@ -5,6 +5,7 @@ from django.utils.text import slugify
 from mptt.forms import TreeNodeChoiceField
 
 class ProductTypeForm(forms.ModelForm):
+
     product_attributes = forms.ModelMultipleChoiceField(
         queryset=Attribute.objects.all(), required=False,
         label='Product attributes'
@@ -15,8 +16,13 @@ class ProductTypeForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        unassignes_attrs = Attribute.objects.all()
-        self.fields['product_attributes'].queryset = unassignes_attrs
+        print(self.instance)
+        if  self.instance.pk:
+            self.fields['product_attributes'].queryset = \
+                self.fields['product_attributes'].queryset.filter(type_attribute=None,
+                                                                  type_attribute__iexact=self.instance)
+        self.fields['product_attributes'].queryset = \
+            self.fields['product_attributes'].queryset.filter(type_attribute=None)
 
     def save(self, *args, **kwargs):
         instance = super().save(*args, **kwargs)

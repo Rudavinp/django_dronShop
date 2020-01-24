@@ -2,6 +2,7 @@ from django.template.response import TemplateResponse
 from django.shortcuts import get_object_or_404, redirect
 from django.http import HttpResponse
 from .forms import CouponForm, SaleForm
+from product.models import Product
 
 from discount.models import Coupon, Sale
 from ..utils import get_paginator_items
@@ -59,8 +60,7 @@ def sales_list(request):
 
 def sale_details(request, sale_pk):
     sale = get_object_or_404(Sale, pk=sale_pk)
-    for s in sale.products:
-        print(s)
+    print(sale.products.all())
     ctx = {'sale': sale}
     return TemplateResponse(request,
                             'dashboard/discount/sales/details.html',
@@ -69,6 +69,8 @@ def sale_details(request, sale_pk):
 
 def sale_create(request, pk=None):
     sale = None
+    products = Product.objects.all().filter(sale=None)
+    print(23, products)
     if pk:
         sale = get_object_or_404(Sale, pk=pk)
     form = SaleForm(request.POST or None, instance=sale)

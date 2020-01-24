@@ -10,9 +10,7 @@
                 <h3>Sale: {{sale.name}}</h3>
                 <h4>Discount: {{sale.discount}} $</h4>
                 <h3>Products:</h3>
-                {% for product in sale.products.all() %}
-                <p>{{product}}</p>
-                {% endfor %}
+                <p>{{sale.products}}</p>
             </div>
             <div class="col-6">
                 <h4>sale status: {{sale.is_active}}</h4>
