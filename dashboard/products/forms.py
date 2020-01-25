@@ -1,28 +1,36 @@
 from django import forms
+from django.db.models import Q
 
 from product.models import Attribute, AttributeValue, ProductType, Product, Category, ProductImage
 from django.utils.text import slugify
 from mptt.forms import TreeNodeChoiceField
 
-class ProductTypeForm(forms.ModelForm):
 
+class ProductTypeForm(forms.ModelForm):
+    """Форма для типа продукта:
+        дополнительно определено поле product_attribute, которое
+        """
     product_attributes = forms.ModelMultipleChoiceField(
-        queryset=Attribute.objects.all(), required=False,
+        queryset=Attribute.objects.all(),
+        required=False,
         label='Product attributes'
     )
+
     class Meta:
         model = ProductType
         exclude = []
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        print(self.instance)
-        if  self.instance.pk:
+
+        if self.instance.pk:
             self.fields['product_attributes'].queryset = \
-                self.fields['product_attributes'].queryset.filter(type_attribute=None,
-                                                                  type_attribute__iexact=self.instance)
-        self.fields['product_attributes'].queryset = \
-            self.fields['product_attributes'].queryset.filter(type_attribute=None)
+                self.fields['product_attributes'].queryset.filter(
+                    Q(type_attribute__exact=self.instance) | Q(type_attribute__isnull=True)
+                )
+        else:
+            self.fields['product_attributes'].queryset = \
+                self.fields['product_attributes'].queryset.filter(type_attribute__isnull=True)
 
     def save(self, *args, **kwargs):
         instance = super().save(*args, **kwargs)
