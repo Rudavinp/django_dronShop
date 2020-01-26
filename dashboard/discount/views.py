@@ -3,11 +3,12 @@ from django.shortcuts import get_object_or_404, redirect
 from django.http import HttpResponse
 from .forms import CouponForm, SaleForm
 from product.models import Product
+from product.models import TypeAttribute, ProductType
 
 from discount.models import Coupon, Sale
 from ..utils import get_paginator_items
 
-DASHBOARD_PAGINATE_BY = 30
+DASHBOARD_PAGINATE_BY = 10
 
 
 def coupons_list(request):
@@ -45,13 +46,18 @@ def coupon_create(request, pk=None):
 
 
 def sales_list(request):
+    """ TODO: check speed query and loading this page
+                add navigation page panel for paginate"""
+
     sales = Sale.objects.all()
+    sales_items = [(s.pk, s.name, s.start_date, s.end_date, s.discount, s.is_active, s.products.all()) for s in sales]
     paginate_sales = get_paginator_items(
-        sales,
+        sales_items,
         DASHBOARD_PAGINATE_BY,
         request.GET.get('page')
     )
     ctx = {'sales': sales, 'paginate': paginate_sales}
+
     return TemplateResponse(
         request,
         'dashboard/discount/sales/list.html',
@@ -69,12 +75,11 @@ def sale_details(request, sale_pk):
 
 def sale_create(request, pk=None):
     sale = None
-    products = Product.objects.all().filter(sale=None)
-    print(23, products)
     if pk:
         sale = get_object_or_404(Sale, pk=pk)
-    form = SaleForm(request.POST or None, instance=sale)
+    form = SaleForm(request.POST or None)
     if form.is_valid():
+        print(777)
         form.save()
         return redirect('dashboard:sales-list')
     ctx = {'form': form}

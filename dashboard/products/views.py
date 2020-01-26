@@ -109,7 +109,7 @@ def product_delete(request, pk):
 def product_type_list(request):
     types = ProductType.objects.all().prefetch_related('attribute').order_by('name')
     types_filter = None
-    product_types = [(types.pk, types.name, types.attribute.all()) for types in types ]
+    product_types = [(types.pk, types.name, types.attribute.all()) for types in types]
     ctx = {
         'product_types': product_types, 'not_empty': True,
     }
@@ -117,12 +117,6 @@ def product_type_list(request):
 
 
 def product_type_add(request):
-    product_type = ProductType.objects.get(pk=2)
-    attr = Attribute.objects.all().filter(type_attribute__in=(None, product_type))
-    for at in attr:
-        print(1233, at.type_attribute == product_type)
-        print(1235, at.type_attribute)
-        # print(1234, product_type)
     form = forms.ProductTypeForm(request.POST or None)
     if form.is_valid():
         form.save()

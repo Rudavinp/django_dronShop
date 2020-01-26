@@ -32,29 +32,32 @@
                                 </tr>
                             </thead>
                             <tbody>
-                            {% for node in paginate %}
+                                {% for pk, name, star_date, end_date, discount, is_active, products in paginate %}
                                 <tr class="tr-dashboard">
                                     <td>
-                                        <a href="{% url 'dashboard:sale-details' node.id %}">
-                                            {{ node.name }}
+                                        <a href="{% url 'dashboard:sale-details' pk %}">
+                                            {{ name }}
                                         </a>
                                     </td>
                                     <td>
-                                        {{node.start_date}}
+                                        {{start_date}}
                                     </td>
                                     <td>
-                                        {{node.end_date}}
+                                        {{end_date}}
                                     </td>
                                     <td>
-                                        {{node.discount}}
+                                        {{discount}}
                                     </td>
                                     <td>
-                                        {{node.is_active}}
+                                        {{is_active}}
                                     </td>
                                     <td>
-                                        {{node.products}}
+                                        {% if products%}
+                                        {{products|join:', '}}
+                                        {% endif %}
                                     </td>
                                 </tr>
+
                             {% endfor %}
                             </tbody>
                         </table>

@@ -7,9 +7,13 @@ from mptt.forms import TreeNodeChoiceField
 
 
 class ProductTypeForm(forms.ModelForm):
-    """Форма для типа продукта:
-        дополнительно определено поле product_attribute, которое
-        """
+    """
+    Форма для типа продукта:
+    дополнительно определено поле product_attribute, которое
+    предоставляет выбор незанятых атрибутов в зависимости
+    от создание это нового ProductType или изменение существующего.
+    """
+
     product_attributes = forms.ModelMultipleChoiceField(
         queryset=Attribute.objects.all(),
         required=False,
@@ -24,17 +28,18 @@ class ProductTypeForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
 
         if self.instance.pk:
-            self.fields['product_attributes'].queryset = \
-                self.fields['product_attributes'].queryset.filter(
+            self.fields['product_attributes'].queryset = self.fields['product_attributes'].queryset.filter(
                     Q(type_attribute__exact=self.instance) | Q(type_attribute__isnull=True)
-                )
+            )
         else:
-            self.fields['product_attributes'].queryset = \
-                self.fields['product_attributes'].queryset.filter(type_attribute__isnull=True)
+            self.fields['product_attributes'].queryset = self.fields['product_attributes'].queryset.filter(
+                type_attribute__isnull=True
+            )
 
     def save(self, *args, **kwargs):
         instance = super().save(*args, **kwargs)
         new_product_attrs = self.cleaned_data.get('product_attributes', [])
+        print(55, new_product_attrs)
         instance.attribute.set(new_product_attrs)
         return instance
 

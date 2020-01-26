@@ -66,8 +66,7 @@ class Product(models.Model):
     quantity = models.IntegerField(validators=
                                    [MinValueValidator(0)], default=0)
     attributes = HStoreField(default=dict, blank=True)
-    sale = models.ForeignKey(Sale, null=True, blank=True, related_name='products',
-                                 on_delete=models.CASCADE)
+    sale = models.ForeignKey(Sale, null=True, blank=True, related_name='products', on_delete=models.CASCADE)
 
     class Meta:
         ordering = ['name']
