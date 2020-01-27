@@ -32,7 +32,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                {% for pk, name, star_date, end_date, discount, is_active, products in paginate %}
+                                {% for pk, name, start_date, end_date, discount, is_active, products in paginate %}
                                 <tr class="tr-dashboard">
                                     <td>
                                         <a href="{% url 'dashboard:sale-details' pk %}">

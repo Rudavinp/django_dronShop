@@ -16,10 +16,6 @@ class SaleForm(forms.ModelForm):
         queryset=Product.objects.all(),
         required=False,
     )
-    coupuns  = forms.ModelMultipleChoiceField(
-        queryset=Coupon.objects.all(),
-        required=False,
-    )
 
     class Meta:
         model = Sale
@@ -31,15 +27,8 @@ class SaleForm(forms.ModelForm):
 
     def save(self, *args, **kwargs):
         instance = super().save(*args, **kwargs)
-        print(34, instance)
         new_products = self.cleaned_data.get('products', [])
-        cup = self.cleaned_data.get('coupuns', [])
-        print(23, new_products)
-        instance.products.set(Product.objects.all())
-        prod = Product.objects.get(pk=3)
-        print(99, instance.products)
-        print(98, prod)
-        print(97, prod.sale)
+        instance.products.set(new_products)
         return instance
 
 

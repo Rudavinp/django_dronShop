@@ -1,4 +1,4 @@
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404, redirect
 from django.template.response import TemplateResponse
 from .models import ProductInCart, ProductInOrder, Order
@@ -99,6 +99,8 @@ def get_or_create_cart(request):
 
 
 def save_to_cart(cart, product, quantity, replace=False):
+	# if not quantity:
+	# 	quantity = 1
 	product, _ = cart.product_in_cart.get_or_create(product=product,
 	                                                defaults={'quantity':0})
 	if not replace:
@@ -148,10 +150,13 @@ def add_to_cart(request, product_id):
 	cart = get_or_create_cart(request)
 	form = ProductForm(request.POST)
 	if form.is_valid():
-		save_to_cart(cart, product, form.cleaned_data['quantity'])
+		quantity = form.cleaned_data['quantity']
+		if not form.cleaned_data['quantity']:
+			quantity = 1
+		save_to_cart(cart, product, quantity)
 	if not request.user.is_authenticated:
 		set_cart_cookie(cart, response)
-	return response
+	return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 
 def update_product_cart(request, product_id):

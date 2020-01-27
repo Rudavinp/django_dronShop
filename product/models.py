@@ -7,6 +7,7 @@ from core.models import SortedModel
 from django.utils.text import slugify
 from django.utils.encoding import smart_text
 from text_unidecode import unidecode
+from decimal import Decimal
 from django.contrib.postgres.fields import HStoreField
 from discount.models import Sale
 
@@ -66,7 +67,8 @@ class Product(models.Model):
     quantity = models.IntegerField(validators=
                                    [MinValueValidator(0)], default=0)
     attributes = HStoreField(default=dict, blank=True)
-    sale = models.ForeignKey(Sale, null=True, blank=True, related_name='products', on_delete=models.CASCADE)
+    sale = models.ForeignKey(Sale, null=True, blank=True,
+                             related_name='products', on_delete=models.CASCADE)
 
     class Meta:
         ordering = ['name']
@@ -79,6 +81,12 @@ class Product(models.Model):
 
     def __str__(self):
         return self.name
+
+    @property
+    def get_price(self):
+        if self.sale:
+            self.price = self.price * Decimal((1 - self.sale.discount/100))
+        return self.price.quantize(Decimal('0.01'))
 
     def get_image(self):
         product_image = ProductImage.objects.filter(product=self, is_main=True)

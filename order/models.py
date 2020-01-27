@@ -194,5 +194,5 @@ class ProductInCart(models.Model):
         return self.product.name
 
     def get_total_price(self):
-        amount = self.quantity * self.product.price
+        amount = self.quantity * self.product.get_price
         return amount

@@ -3,6 +3,7 @@ from django.template.response import TemplateResponse
 from django.http import HttpResponsePermanentRedirect
 from .forms import ProductForm
 from .models import Product, Category
+from discount.models import Sale
 
 
 def product(request, slug, product_id):
@@ -13,21 +14,23 @@ def product(request, slug, product_id):
 	session_key = request.session.session_key
 	if not session_key:
 		request.session.cycle_key()
+
 	form = ProductForm(request.POST)
+	ctx = {'product': product,
+		 'form': form}
 	return TemplateResponse(
 		request,
 		'product/product.html',
-		{'product': product,
-		 'form': form}
+		ctx
 	)
 
 
 def category(request, category_slug):
 	products= Product.objects.filter(category__slug=category_slug)
-
+	ctx = {'products': products, }
 	return TemplateResponse(request,
 	                        'category/category.html',
-	                        {'products': products, },
+							ctx
 	                        )
 
 

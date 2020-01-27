@@ -126,18 +126,7 @@ def product_type_add(request):
 
 
 def product_type_edit(request, pk):
-    from django.db.models import Q
-
     product_type = get_object_or_404(ProductType, pk=pk)
-    product_type3 = get_object_or_404(ProductType, pk=2)
-    attr = Attribute.objects.filter(Q(type_attribute__isnull=True)| Q(type_attribute=product_type))
-    att = Attribute.objects.all()
-    print(12345, att)
-    for t in att:
-        print(22, t.type_attribute)
-    for i in attr:
-        print(1, i)
-    print(3333, attr)
     form = forms.ProductTypeForm(request.POST or None, instance=product_type)
     if form.is_valid():
         form.save()
