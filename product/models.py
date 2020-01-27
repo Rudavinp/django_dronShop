@@ -10,6 +10,7 @@ from text_unidecode import unidecode
 from decimal import Decimal
 from django.contrib.postgres.fields import HStoreField
 from discount.models import Sale
+from embed_video.fields import EmbedVideoField
 
 
 class Category(MPTTModel):
@@ -69,6 +70,7 @@ class Product(models.Model):
     attributes = HStoreField(default=dict, blank=True)
     sale = models.ForeignKey(Sale, null=True, blank=True,
                              related_name='products', on_delete=models.CASCADE)
+    video = EmbedVideoField(blank=True, verbose_name='Video')
 
     class Meta:
         ordering = ['name']

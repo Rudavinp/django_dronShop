@@ -11,11 +11,9 @@ from dron_market2 import settings
 def home(request):
 
     products = ProductImage.objects.filter(is_main=True)
-    categoryes = Category.objects.all()
 
     return TemplateResponse(request, 'home/home.html',
                             {'products': products,
-                             'categoryes': categoryes,
                              },
                             )
 
