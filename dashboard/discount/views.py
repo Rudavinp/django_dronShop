@@ -77,7 +77,7 @@ def sale_create(request, pk=None):
     sale = None
     if pk:
         sale = get_object_or_404(Sale, pk=pk)
-    form = SaleForm(request.POST or None)
+    form = SaleForm(request.POST or None, instance=sale)
     if form.is_valid():
         print(777)
         form.save()

@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth.decorators import permission_required
 from .models import Product
+from core.models import Comment
 
 
 class ProductForm(forms.Form):
@@ -9,3 +10,15 @@ class ProductForm(forms.Form):
 
 class SearchForm(forms.Form):
 	pass
+
+
+class CommentForm(forms.ModelForm):
+
+	class Meta:
+		model = Comment
+		fields = ['text', ]
+		labels = {'text': 'Enter your comment'}
+		widgets = {
+			'text': forms.Textarea(attrs={'rows':2, 'cols':5}),
+		}
+

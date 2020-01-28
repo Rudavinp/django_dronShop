@@ -1,18 +1,4 @@
-"""dron_market2 URL Configuration
 
-The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/2.0/topics/http/urls/
-Examples:
-Function views
-    1. Add an import:  from my_app import views
-    2. Add a URL to urlpatterns:  path('', views.home, name='home')
-Class-based views
-    1. Add an import:  from other_app.views import Home
-    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
-Including another URLconf
-    1. Import the include() function: from django.urls import include, path
-    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
-"""
 from django.contrib import admin
 from django.urls import path
 from django.conf.urls import include
@@ -26,6 +12,7 @@ from order.urls import (urlpatterns as order_urls,
                         )
 from account.urls import urlpatterns as account_urls
 from dashboard.urls import urlpatterns as dashboard_urls
+from core.urls import urlpatterns as core_urls
 
 
 urlpatterns = [
@@ -37,6 +24,7 @@ urlpatterns = [
     path('cart/', include((cart_urls, 'cart'), namespace='cart')),
     path('dashboard/', include((dashboard_urls, 'dashboard'), namespace='dashboard')),
     path('account/', include('social_django.urls', namespace='social')),
+    path('core/', include((core_urls, 'core'), namespace='core')),
 ]
 
 

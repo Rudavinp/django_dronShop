@@ -3,7 +3,6 @@ from django.urls import reverse
 from django.core.validators import MinValueValidator
 from mptt.models import MPTTModel
 from mptt.managers import TreeManager
-from core.models import SortedModel
 from django.utils.text import slugify
 from django.utils.encoding import smart_text
 from text_unidecode import unidecode

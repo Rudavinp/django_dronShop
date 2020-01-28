@@ -98,22 +98,7 @@ def get_or_create_cart(request):
 		defaults={'user': None})[0]
 
 
-def save_to_cart(cart, product, quantity, replace=False):
-	# if not quantity:
-	# 	quantity = 1
-	product, _ = cart.product_in_cart.get_or_create(product=product,
-	                                                defaults={'quantity':0})
-	if not replace:
-		new_quantity = quantity + product.quantity
-	else:
-		new_quantity = quantity
-	product.quantity = new_quantity
-	product.save(update_fields=['quantity'])
-	total_price = cart.product_in_cart.aggregate(total_quantity=Sum('quantity'))['total_quantity']
-	if not total_price:
-		total_price = 0
-	cart.quantity = total_price
-	cart.save(update_fields=['quantity'])
+
 
 
 def cart_index(request):
@@ -141,6 +126,23 @@ def cart_index(request):
 		'code': code
 	}
 	return TemplateResponse(request, 'orders/index.html', ctx)
+
+
+def save_to_cart(cart, product, quantity, replace=False):
+
+	product, _ = cart.product_in_cart.get_or_create(product=product,
+	                                                defaults={'quantity':0})
+	if not replace:
+		new_quantity = quantity + product.quantity
+	else:
+		new_quantity = quantity
+	product.quantity = new_quantity
+	product.save(update_fields=['quantity'])
+	total_price = cart.product_in_cart.aggregate(total_quantity=Sum('quantity'))['total_quantity']
+	if not total_price:
+		total_price = 0
+	cart.quantity = total_price
+	cart.save(update_fields=['quantity'])
 
 
 def add_to_cart(request, product_id):

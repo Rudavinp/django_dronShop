@@ -1,28 +1,36 @@
 from django.shortcuts import render, redirect
+from django.contrib import messages
 from django.template.response import TemplateResponse
-from django.http import HttpResponsePermanentRedirect
-from .forms import ProductForm
+from django.http import HttpResponsePermanentRedirect, HttpResponseRedirect
+from .forms import ProductForm, CommentForm
 from .models import Product, Category
+from core.models import Comment
+from core.views import add_product_comment
 from discount.models import Sale
 
 
 def product(request, slug, product_id):
-	print(1234455, type(request), request.COOKIES)
 	product = Product.objects.get(id=product_id)
 	if slug != product.get_slug:
 		return HttpResponsePermanentRedirect(product.get_absolute_url())
-	session_key = request.session.session_key
-	if not session_key:
-		request.session.cycle_key()
+	# session_key = request.session.session_key
+	# if not session_key:
+	# 	request.session.cycle_key()
+	comment_form = CommentForm(request.POST or None)
+	form = ProductForm(request.POST or None)
+	comments = product.comment.filter(is_visible=True)
+	# messages.success(request, 'all is good')
 
-	form = ProductForm(request.POST)
-	ctx = {'product': product,
-		 'form': form}
-	return TemplateResponse(
-		request,
-		'product/product.html',
-		ctx
-	)
+	ctx = {
+		'product': product,
+		'form': form,
+		'comment_form': comment_form,
+		'comments': comments
+	}
+
+	return TemplateResponse(request,
+							'product/product.html',
+							ctx)
 
 
 def category(request, category_slug):
@@ -33,11 +41,6 @@ def category(request, category_slug):
 							ctx
 	                        )
 
-
-# def cart_adding(request):
-# 	user = request.user
-# 	response = redirect('cart:cart')
-# 	return response
 
 
 def search(request):
