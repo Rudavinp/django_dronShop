@@ -6,6 +6,7 @@ from product.forms import CommentForm
 from .models import Comment
 from .utils import test_user_is_auth
 
+
 @test_user_is_auth
 def add_product_comment(request, prod_id, comment_id=None):
     product = Product.objects.get(pk=prod_id)

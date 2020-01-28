@@ -13,13 +13,10 @@ def product(request, slug, product_id):
 	product = Product.objects.get(id=product_id)
 	if slug != product.get_slug:
 		return HttpResponsePermanentRedirect(product.get_absolute_url())
-	# session_key = request.session.session_key
-	# if not session_key:
-	# 	request.session.cycle_key()
+
 	comment_form = CommentForm(request.POST or None)
 	form = ProductForm(request.POST or None)
 	comments = product.comment.filter(is_visible=True)
-	# messages.success(request, 'all is good')
 
 	ctx = {
 		'product': product,
@@ -27,7 +24,6 @@ def product(request, slug, product_id):
 		'comment_form': comment_form,
 		'comments': comments
 	}
-
 	return TemplateResponse(request,
 							'product/product.html',
 							ctx)

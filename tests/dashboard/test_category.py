@@ -8,8 +8,8 @@ from dashboard.categories.forms import CategoryForm
 def get_category_model():
     return Category.objects.create(name='testCat')
 
-class TestDashboardCategories(TestCase):
 
+class TestDashboardCategories(TestCase):
 
     def test_category_list(self):
         url = reverse('dashboard:category-list')
@@ -20,7 +20,6 @@ class TestDashboardCategories(TestCase):
         cat = get_category_model()
         self.assertTrue(isinstance(cat, Category))
         self.assertEqual(cat.__str__(), cat.name)
-
 
     def test_category_create(self):
         url = reverse('dashboard:category-add')
@@ -36,19 +35,16 @@ class TestDashboardCategories(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTrue(Category.objects.count()==0)
 
-
     def test_category_details(self):
         category = get_category_model()
         url = reverse('dashboard:category-detail',
-                      kwargs={'pk':category.pk})
+                      kwargs={'pk': category.pk})
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
 
     def test_dashboard_cat_form_with_not_valid_name(self):
         data = {'name': '', 'description': 'Blabla'}
-        form = CategoryForm( data, ancestor=None)
-        if form.is_valid():
-            print(form.fields)
+        form = CategoryForm(data, ancestor=None)
         self.assertFalse(form.is_valid())
 
     def test_create_sub_categories(self):
