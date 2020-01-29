@@ -13,7 +13,7 @@ class SearchForm(forms.Form):
 
 
 class CommentForm(forms.ModelForm):
-
+	print(4)
 	class Meta:
 		model = Comment
 		fields = ['text', ]

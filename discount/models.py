@@ -5,7 +5,7 @@ from django.utils import timezone
 
 class Coupon(models.Model):
     code = models.CharField(max_length=8, unique=True)
-    start_date = models.DateField(default=timezone.now())
+    start_date = models.DateField(default=timezone.now)
     end_date = models.DateField(null=True, blank=True)
     is_active = models.BooleanField(default=True)
     discount = models.PositiveSmallIntegerField(validators=[MinValueValidator(0),
@@ -16,7 +16,7 @@ class Coupon(models.Model):
 
 class Sale(models.Model):
     name = models.CharField(max_length=25, unique=True)
-    start_date = models.DateField(default=timezone.now())
+    start_date = models.DateField(default=timezone.now)
     end_date = models.DateField(null=True, blank=True)
     is_active = models.BooleanField(default=True)
     discount = models.PositiveSmallIntegerField(validators=[MinValueValidator(0),
