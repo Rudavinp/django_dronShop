@@ -14,25 +14,43 @@ def get_product_model():
     return Product.objects.create(category=cat, name='testProd', price=10)
 
 
-
 class TestProductView(TestCase):
+
+    @classmethod
+    def setUpTestData(cls):
+        cat = Category.objects.create(name='cat')
+        return Product.objects.create(category=cat, name='testProd', price=10)
 
     def setUp(self) -> None:
         test_user = User.objects.create_user(email='lol@bk.ru', password='12345')
         test_user.save()
-        form = CommentForm('asvas')
 
-    def test_user_login(self):
-        login = self.client.login(username='lol@bk.ru', password='12345')
-        print(1234, login)
+    def test_logged_user_can_create_comment(self):
+        self.client.login(username='lol@bk.ru', password='12345')
 
-        prod = get_product_model()
-        data = {'prod_id': prod.pk}
-        url = reverse('core:comment', kwargs=data,)
+        prod = Product.objects.get(name='testProd')
+        url = reverse('core:comment', kwargs={'prod_id': prod.pk},)
 
-        response = self.client.post(url,  follow=True)
-        # print(12345, response.context)
-        print(123456, Comment.objects.count())
+        response = self.client.post(url, {'text': 'blabla'}, follow=True)
+
         self.assertEqual(response.status_code, 200)
         self.assertEqual(str(response.context['user']), 'lol@bk.ru')
-        self.assertTrue(Comment.objects.count()==1)
+        self.assertTrue(Comment.objects.count() == 1)
+        self.assertRedirects(response, '/product/testProd-{}/'.format(prod.pk), permanent=True)
+
+    def test_logged_user_cant_create_empty_comment(self):
+        self.client.login(username='lol@bk.ru', password='12345')
+        prod = Product.objects.get(name='testProd')
+        url = reverse('core:comment', kwargs={'prod_id': prod.pk}, )
+        response = self.client.post(url, {'text': ''}, follow=True)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(str(response.context['user']), 'lol@bk.ru')
+        self.assertTrue(Comment.objects.count() == 0)
+
+    def test_not_logged_user_cant_create_comment(self):
+        prod = Product.objects.get(name='testProd')
+        url = reverse('core:comment', kwargs={'prod_id': prod.pk}, )
+        self.client.post(url, {'text': 'bla'}, follow=True)
+
+        self.assertTrue(Comment.objects.count() == 0)
