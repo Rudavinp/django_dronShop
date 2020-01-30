@@ -8,17 +8,18 @@ from .utils import requare_user_auth
 
 @requare_user_auth
 def add_product_comment(request, prod_id, comment_id=None):
-    print(1222)
+
+    # TODO: func -> user can edit and delete his comments
+    """Создает новый комментарий под породуктом, если пользователь
+    авторизован и перенаправляет обратно на страницу продукта.
+
+    Не реалезованно: передача существующего коментария для его
+    редоктирования"""
+
     product = Product.objects.get(pk=prod_id)
-    # instance=None
-    # if comment_id:
-    # #     instance = Comment.objects.get(pk=comment_id)
-    #     print(22222, instance, request.POST)
     comment, _ = Comment.objects.get_or_create(pk=comment_id, product=product,
                                                user=request.user)
     form = CommentForm(request.POST, instance=comment)
-    print(2222, form)
-    print(3333, comment)
     if form.is_valid():
         text = form.cleaned_data['text']
         # comment, _ = Comment.objects.get_or_create(pk=comment_id, product=product,
@@ -27,7 +28,6 @@ def add_product_comment(request, prod_id, comment_id=None):
         comment.save()
     return redirect(product.get_absolute_url())
 
-#TODO: func -> user can edit and delete his comments
 
 def delete_comment(request, comment_id):
     comment = get_object_or_404(Comment, pk=comment_id)
