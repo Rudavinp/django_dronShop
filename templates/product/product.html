@@ -106,6 +106,17 @@
 							<p class="font-weight-light">Пользователь: {{comment.user.email}}</p>
 							<p class="font-weight-light">{{comment.date_comment}}</p>
 							<p>{{comment.text}}</p>
+					{% if comment.user == request.user %}
+								<a href="{% url 'core:comment' prod_id=product.id comment_id=comment.pk%}">
+									Изменить
+								</a>
+					<a href="{% url 'core:del-comment' comment_id=comment.pk  %}">
+									Удалить
+								</a>
+					<a href='http://127.0.0.1:8000/product/product-1/'>
+									Изме
+								</a>
+					{% endif %}
 						{% endfor %}
 					{% else %}
 						Коментариев пока нет

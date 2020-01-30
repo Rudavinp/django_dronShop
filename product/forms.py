@@ -13,7 +13,6 @@ class SearchForm(forms.Form):
 
 
 class CommentForm(forms.ModelForm):
-	print(4)
 	class Meta:
 		model = Comment
 		fields = ['text', ]
@@ -22,3 +21,7 @@ class CommentForm(forms.ModelForm):
 			'text': forms.Textarea(attrs={'rows':2, 'cols':5}),
 		}
 
+	def __init__(self, *args, **kwargs):
+		super().__init__(*args, **kwargs)
+		if self.instance:
+			self._meta.labels['text'] = self.instance.text

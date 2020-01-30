@@ -12,6 +12,7 @@ from discount.models import Sale
 def product(request, slug, product_id):
 	product = Product.objects.get(id=product_id)
 	if slug != product.get_slug:
+		print(55555)
 		return HttpResponsePermanentRedirect(product.get_absolute_url())
 
 	comment_form = CommentForm(request.POST or None)
